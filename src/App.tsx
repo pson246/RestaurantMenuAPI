@@ -6,5 +6,12 @@ import {
   ShowGuesser,
 } from "react-admin";
 import { dataProvider } from "./dataProvider";
+import { Dashboard } from "./dashboard/Dashboard";
 
-export const App = () => <Admin dataProvider={dataProvider}></Admin>;
+export const App = () => (
+  <Admin
+    dataProvider={dataProvider}
+    dashboard={Dashboard}>
+    <Resource name="users" list={ListGuesser} />
+  </Admin>
+);
