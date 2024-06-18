@@ -1,6 +1,6 @@
 import { PieChart } from '@mui/x-charts/PieChart';
 import { useEffect, useState } from 'react';
-import { ConnectionMode, CosmosClient } from '@azure/cosmos';
+import { CosmosClient } from '@azure/cosmos';
 import { dbConfig } from '../dbConfig';
 
 export const Chart = () => {
@@ -16,8 +16,8 @@ export const Chart = () => {
 
         const endpoint = dbConfig.host;
         const key = dbConfig.authKey;        
-
-        const cosmosClient = new CosmosClient({ endpoint, key, connectionPolicy: {connectionMode: ConnectionMode.Gateway} });
+        
+        const cosmosClient = new CosmosClient({ endpoint, key });
         const databaseId = dbConfig.databaseId;
         const containerId = dbConfig.containerId;
 
@@ -34,11 +34,11 @@ export const Chart = () => {
 
         const restaurantsCountQuery = "SELECT VALUE COUNT(1) from c";        
 
-        const restaurantsCount  = (await container.items.query(restaurantsCountQuery).fetchAll()).resources[0];            
+        const restaurantsCount = (await container.items.query(restaurantsCountQuery).fetchAll()).resources[0];        
 
         const restaurantSpidersCountQuery = "SELECT VALUE COUNT(c.foodItems) from c";
 
-        const restaurantSpidersCount = (await container.items.query(restaurantSpidersCountQuery).fetchAll()).resources[0];
+        const restaurantSpidersCount = (await container.items.query(restaurantSpidersCountQuery).fetchAll()).resources[0];        
         
         calculateSpiderAvailableAndMissingPercentage(restaurantsCount, restaurantSpidersCount);
 
