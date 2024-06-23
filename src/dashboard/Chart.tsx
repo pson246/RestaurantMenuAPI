@@ -1,19 +1,17 @@
 import { PieChart } from '@mui/x-charts/PieChart';
 import { useEffect, useState } from 'react';
-import { CosmosClient } from '@azure/cosmos';
-import { dbConfig } from '../dbConfig';
 import { calculateSpidersCount, calculateSpiderAvailableAndMissingPercentage } from './ChartUtils';
 
 export const Chart = () => {
 
-    const [spiderAvailablePercentage, setSpiderAvailablePercentage] = useState(0);
-    const [spiderMissingPercentage, setSpiderMissingPercentage] = useState(0);
+    const [spiderAvailablePercentage, setSpiderAvailablePercentage] = useState(1);
+    const [spiderMissingPercentage, setSpiderMissingPercentage] = useState(99);
 
     useEffect(() => {        
-        dbConnect();
+        // dbConnect();
     }, []);
 
-    const dbConnect = async () => {
+    /* const dbConnect = async () => {
 
         const endpoint = dbConfig.host;
         const key = dbConfig.authKey;        
@@ -33,8 +31,8 @@ export const Chart = () => {
 
         const container = coResponse.container;
 
-        // const restaurantsCountQuery = "SELECT VALUE COUNT(1) from c";                
-        // const restaurantSpidersCountQuery = "SELECT VALUE COUNT(c.foodItems) from c";
+        const restaurantsCountQuery = "SELECT VALUE COUNT(1) from c";                
+        const restaurantSpidersCountQuery = "SELECT VALUE COUNT(c.foodItems) from c";
 
         
         const restaurantsQuery = "SELECT * from c";
@@ -52,7 +50,7 @@ export const Chart = () => {
         setSpiderAvailablePercentage(availablePercentage);
         setSpiderMissingPercentage(missingPercentage);        
 
-    };        
+    };   */      
 
     return <PieChart
         series={[
