@@ -2,7 +2,7 @@ import { PieChart } from '@mui/x-charts/PieChart';
 import { useEffect, useState } from 'react';
 import { CosmosClient } from '@azure/cosmos';
 import { dbConfig } from '../dbConfig';
-import { calculateSpidersCount } from './ChartUtils';
+import { calculateSpidersCount, calculateSpiderAvailableAndMissingPercentage } from './ChartUtils';
 
 export const Chart = () => {
 
@@ -33,37 +33,26 @@ export const Chart = () => {
 
         const container = coResponse.container;
 
-        // const restaurantsCountQuery = "SELECT VALUE COUNT(1) from c";        
-
-        // const restaurantsCount = (await container.items.query(restaurantsCountQuery).fetchAll()).resources[0];        
-
+        // const restaurantsCountQuery = "SELECT VALUE COUNT(1) from c";                
         // const restaurantSpidersCountQuery = "SELECT VALUE COUNT(c.foodItems) from c";
 
-        // const restaurantSpidersCount = (await container.items.query(restaurantSpidersCountQuery).fetchAll()).resources[0];
         
         const restaurantsQuery = "SELECT * from c";
-
         const { resources } = await container.items.query(restaurantsQuery).fetchAll();        
 
         const restaurantsCount = resources.length;
-
         var restaurantSpidersCount = calculateSpidersCount(resources);
         
-        calculateSpiderAvailableAndMissingPercentage(restaurantsCount, restaurantSpidersCount);
-
-    };    
-    
-    function calculateSpiderAvailableAndMissingPercentage(restaurantsCount: number, restaurantSpidersCount: number) {
-
-        const availablePercentage = Math.round((restaurantSpidersCount / restaurantsCount) * 100);
+        const spiderAvailableAndMissingPercentage =
+            calculateSpiderAvailableAndMissingPercentage(restaurantsCount, restaurantSpidersCount);
         
-        const missingPercentage = 100 - availablePercentage;
+        const availablePercentage = spiderAvailableAndMissingPercentage["availablePercentage"];
+        const missingPercentage = spiderAvailableAndMissingPercentage["missingPercentage"];
 
         setSpiderAvailablePercentage(availablePercentage);
+        setSpiderMissingPercentage(missingPercentage);        
 
-        setSpiderMissingPercentage(missingPercentage);
-
-    };
+    };        
 
     return <PieChart
         series={[
