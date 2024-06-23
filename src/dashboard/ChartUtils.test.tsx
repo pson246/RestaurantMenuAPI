@@ -12,3 +12,13 @@ test('spiders count should return 1', () => {
     expect(spidersCount).toBe(1);
 
 });
+
+test('spiders count should return 0', () => {
+
+    const restaurants = [ {} ];
+
+    const spidersCount = calculateSpidersCount(restaurants);
+
+    expect(spidersCount).toBe(0);
+
+});
