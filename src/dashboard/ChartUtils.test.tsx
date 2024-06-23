@@ -15,9 +15,23 @@ test('spiders count should return 1', () => {
 
 test('spiders count should return 0', () => {
 
-    const restaurants = [ {} ];
+    var restaurants = [ {} ];
 
-    const spidersCount = calculateSpidersCount(restaurants);
+    var spidersCount = calculateSpidersCount(restaurants);
+
+    expect(spidersCount).toBe(0);
+
+    restaurants = [{
+        "food": "items"
+    }];
+    
+    spidersCount = calculateSpidersCount(restaurants);
+
+    expect(spidersCount).toBe(0);
+
+    restaurants = [];
+    
+    spidersCount = calculateSpidersCount(restaurants);
 
     expect(spidersCount).toBe(0);
 
