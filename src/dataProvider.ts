@@ -56,7 +56,7 @@ export const dataProvider: DataProvider = {
     return {
       data: resources,
       total: resources.length
-    }
+    };
   },
   getOne: function <RecordType extends RaRecord<Identifier> = any>(resource: string, params: GetOneParams<RecordType>): Promise<GetOneResult<RecordType>> {
     throw new Error("Function not implemented.");
