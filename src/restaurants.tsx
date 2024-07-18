@@ -12,8 +12,8 @@ import {
 export const RestaurantList = () => (
     <List>        
         <Datagrid rowClick="show">
-            <TextField source="properties.name" />
-            <TextField source="properties.opening_hours" />
+            <TextField label="Name" source="properties.name" />
+            <TextField label="Opening hours" source="properties.opening_hours" />
         </Datagrid>
     </List>
 );
