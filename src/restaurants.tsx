@@ -1,8 +1,17 @@
-import { Datagrid, Edit, List, SimpleForm, TextField, TextInput } from "react-admin";
+import {
+    Datagrid,
+    Edit,
+    List,
+    Show,
+    SimpleForm,
+    SimpleShowLayout,
+    TextField,
+    TextInput
+} from "react-admin";
 
 export const RestaurantList = () => (
-    <List>
-        <Datagrid rowClick="edit">
+    <List>        
+        <Datagrid rowClick="show">
             <TextField source="properties.name" />
             <TextField source="properties.opening_hours" />
         </Datagrid>
@@ -13,6 +22,15 @@ export const RestaurantEdit = () => (
     <Edit>
         <SimpleForm>
             <TextInput source="properties.opening_hours" />
+            <TextInput source="properties.foodItems" />
         </SimpleForm>
     </Edit>
+);
+
+export const RestaurantShow = () => (
+    <Show>
+        <SimpleShowLayout>
+            <TextField source="properties.foodItems" />     
+        </SimpleShowLayout>
+    </Show>
 );

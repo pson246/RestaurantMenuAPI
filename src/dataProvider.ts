@@ -18,8 +18,8 @@ import {
   GetManyReferenceParams,
   GetManyReferenceResult,
   GetManyResult,
-  GetOneParams,
-  GetOneResult,
+  //GetOneParams,
+  //GetOneResult,
   Identifier,
   RaRecord,
   UpdateManyParams,
@@ -27,11 +27,13 @@ import {
   UpdateParams,
   UpdateResult
 } from "react-admin";
-import { CosmosClient } from '@azure/cosmos';
+import { Container, CosmosClient } from '@azure/cosmos';
 import { dbConfig } from "./dbConfig";
 
 export const dataProvider: DataProvider = {
-  getList: async (resource, params) => {
+
+  async getContainer(): Promise<Container> {
+    
     const endpoint = dbConfig.host;
     const key = dbConfig.authKey;
 
@@ -50,16 +52,45 @@ export const dataProvider: DataProvider = {
 
     const container = coResponse.container;
 
+    return container;
+
+  },
+
+  getList: async (_resource, _params) => {
+
+    const container = await dataProvider.getContainer();
+
     const restaurantsQuery = "SELECT * from c";
-    const { resources } = await container.items.query(restaurantsQuery).fetchAll();    
+    const { resources } = await container.items.query(restaurantsQuery).fetchAll();
 
     return {
       data: resources,
       total: resources.length
     };
+
   },
-  getOne: function <RecordType extends RaRecord<Identifier> = any>(resource: string, params: GetOneParams<RecordType>): Promise<GetOneResult<RecordType>> {
-    throw new Error("Function not implemented.");
+  getOne: async (_resource, params) => {
+
+    const container = await dataProvider.getContainer();
+    
+    const restaurantId = String(params.id);
+
+    const restaurantQuery = {
+      query: `SELECT * FROM ${container.id} f WHERE f.id = @id`,
+      parameters: [{
+        name: "@id",
+        value: restaurantId,
+      }],
+    };
+
+    const { resources } = await container.items.query(restaurantQuery).fetchAll();
+
+    const restaurant = resources[0];
+
+    return {
+      data: restaurant
+    };
+
   },
   getMany: function <RecordType extends RaRecord<Identifier> = any>(resource: string, params: GetManyParams): Promise<GetManyResult<RecordType>> {
     throw new Error("Function not implemented.");
