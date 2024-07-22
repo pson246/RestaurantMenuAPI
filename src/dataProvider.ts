@@ -55,7 +55,6 @@ export const dataProvider: DataProvider = {
     return container;
 
   },
-
   getList: async (_resource, _params) => {
 
     const container = await dataProvider.getContainer();
@@ -113,4 +112,5 @@ export const dataProvider: DataProvider = {
   deleteMany: function <RecordType extends RaRecord<Identifier> = any>(resource: string, params: DeleteManyParams<RecordType>): Promise<DeleteManyResult<RecordType>> {
     throw new Error("Function not implemented.");
   }
+  
 };
