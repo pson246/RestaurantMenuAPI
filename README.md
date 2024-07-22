@@ -30,3 +30,5 @@ The included data provider use [ra-data-json-server](https://github.com/marmelab
 
 You'll find an `.env` file at the project root that includes a `VITE_JSON_SERVER_URL` variable. Set it to the URL of your backend. By default, we set it to targets [JSONPlaceholder](https://jsonplaceholder.typicode.com/).
 
+[![Azure Static Web Apps CI/CD](https://github.com/pson246/spideravailabilitydashboard/actions/workflows/azure-static-web-apps-victorious-glacier-0540dc403.yml/badge.svg?branch=master)](https://github.com/pson246/spideravailabilitydashboard/actions/workflows/azure-static-web-apps-victorious-glacier-0540dc403.yml)
+
