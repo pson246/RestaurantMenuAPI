@@ -1,7 +1,6 @@
 import {
     Datagrid,
     Edit,
-    EditButton,
     Labeled,
     List,
     Show,
@@ -16,7 +15,7 @@ export const RestaurantList = () => (
         <Datagrid rowClick="show">
             <TextField label="Name" source="properties.name" />
             <TextField label="Opening hours" source="properties.opening_hours" />
-            <EditButton />
+            {/* <EditButton /> */}
         </Datagrid>
     </List>
 );
