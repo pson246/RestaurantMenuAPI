@@ -3,11 +3,7 @@ import { AuthProvider } from "react-admin";
 export const authProvider: AuthProvider = {
 
     login: ({ username, password }) => {
-        if (username !== 'developer' || password !== 'PikkuLounasAlacarte610#') {
-            return Promise.reject();
-        }
-        localStorage.setItem('username', username);
-        return Promise.resolve();
+        return Promise.reject();
     },
     logout: () => {
         localStorage.removeItem('username');
