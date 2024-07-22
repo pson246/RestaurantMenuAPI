@@ -32,6 +32,9 @@ jobs:
           api_location: "api" # Api source code path - optional
           output_location: "dist" # Built app content directory - optional
           ###### End of Repository/Build Configurations ######
+        env:
+          VITE_REACT_APP_DB_HOST: ${{ secrets.VITE_REACT_APP_DB_HOST }}
+          VITE_REACT_APP_DB_AUTH_KEY: ${{ secrets.VITE_REACT_APP_DB_AUTH_KEY }}
 
   close_pull_request_job:
     if: github.event_name == 'pull_request' && github.event.action == 'closed'
