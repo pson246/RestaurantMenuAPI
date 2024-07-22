@@ -9,6 +9,7 @@ export const App = () => (
     dataProvider={dataProvider}
     authProvider={authProvider}
     dashboard={Dashboard}>
-    <Resource name="restaurants" list={RestaurantList} edit={RestaurantEdit} show={RestaurantShow} />
+    {/* <Resource name="restaurants" list={RestaurantList} edit={RestaurantEdit} show={RestaurantShow} /> */}
+    <Resource name="restaurants" />
   </Admin>
 );
