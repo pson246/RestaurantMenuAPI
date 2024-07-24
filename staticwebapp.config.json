@@ -3,7 +3,7 @@
     "routes": [
         {
             "route": "/auth-callback",
-            "redirect": "/",
+            "redirect": "/restaurants",
             "statusCode": 301
         }
     ]
