@@ -7,6 +7,11 @@ export default defineConfig({
     define: {
         'process.env': process.env,
     },
+    optimizeDeps: {
+        esbuildOptions: {
+            target: 'esnext'
+        }
+    },
     server: {
         host: true,
         port: 8080
