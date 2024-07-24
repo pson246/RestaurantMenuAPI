@@ -18,7 +18,7 @@ jobs:
       - uses: actions/checkout@v3
         with:
           submodules: true
-          lfs: false
+          lfs: false          
       - name: Build And Deploy
         id: builddeploy
         uses: Azure/static-web-apps-deploy@v1
@@ -36,7 +36,7 @@ jobs:
           VITE_MSAL_CLIENT_ID: ${{ secrets.VITE_MSAL_CLIENT_ID }}
           VITE_MSAL_AUTHORITY: ${{ secrets.VITE_MSAL_AUTHORITY }}
           VITE_APP_BASE_URI: ${{ secrets.VITE_APP_BASE_URI }}
-          #VITE_REACT_APP_DB_HOST: secrets.VITE_REACT_APP_DB_HOST
+          # VITE_REACT_APP_DB_HOST: secrets.VITE_REACT_APP_DB_HOST
           # VITE_REACT_APP_DB_AUTH_KEY: secrets.VITE_REACT_APP_DB_AUTH_KEY
 
   close_pull_request_job:
