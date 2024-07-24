@@ -1,10 +1,6 @@
 {
-    "trailingSlash": "auto",
-    "routes": [
-        {
-            "route": "/auth-callback",
-            "redirect": "/restaurants",
-            "statusCode": 301
-        }
-    ]
+    "trailingSlash": "auto",    
+    "navigationFallback": {
+        "rewrite": "/"    
+    }
 }
