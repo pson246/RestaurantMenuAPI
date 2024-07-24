@@ -11,6 +11,9 @@ export default defineConfig({
         esbuildOptions: {
             target: 'esnext'
         }
+    },  
+    build: {
+        target: 'esnext'
     },
     server: {
         host: true,
