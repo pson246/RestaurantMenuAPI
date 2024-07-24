@@ -1,0 +1,10 @@
+{
+    "trailingSlash": "auto",
+    "routes": [
+        {
+            "route": "/auth-callback",
+            "redirect": "/",
+            "statusCode": 301
+        }
+    ]
+}
