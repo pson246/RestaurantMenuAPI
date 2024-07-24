@@ -6,6 +6,7 @@ import { BrowserRouter } from "react-router-dom";
 import { LoginPage } from "ra-auth-msal";
 
 export const App = () => (
+  import.meta.env.PROD ? 
   <BrowserRouter>
     <Admin
       dataProvider={dataProvider}
@@ -13,6 +14,13 @@ export const App = () => (
       loginPage={LoginPage}
       dashboard={Dashboard}>
       {/* <Resource name="restaurants" list={RestaurantList} edit={RestaurantEdit} show={RestaurantShow} /> */}
+      <Resource name="restaurants" />   
+    </Admin>
+  </BrowserRouter> :
+  <BrowserRouter>
+    <Admin
+      dataProvider={dataProvider}      
+      dashboard={Dashboard}>      
       <Resource name="restaurants" />   
     </Admin>
   </BrowserRouter>  
