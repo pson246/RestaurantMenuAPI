@@ -14,6 +14,7 @@ import {
   DeleteManyResult,
   DeleteParams,
   DeleteResult,
+  fetchUtils,
   GetManyParams,
   GetManyReferenceParams,
   GetManyReferenceResult,
@@ -30,7 +31,9 @@ import {
 import { Container, CosmosClient } from '@azure/cosmos';
 import { dbConfig } from "./dbConfig";
 
-export const dataProvider: DataProvider = {
+const API_URL = import.meta.env.VITE_REACT_APP_API_URL || process.env.VITE_REACT_APP_API_URL || "";
+
+export const dataProvider: DataProvider = {  
 
   async getContainer(): Promise<Container> {
     
@@ -57,14 +60,11 @@ export const dataProvider: DataProvider = {
   },
   getList: async (_resource, _params) => {
 
-    const container = await dataProvider.getContainer();
-
-    const restaurantsQuery = "SELECT * from c";
-    const { resources } = await container.items.query(restaurantsQuery).fetchAll();
+    const response = await fetchUtils.fetchJson(`${API_URL}/api/EuropeFinlandHelsinkiRestaurantListHttp`);    
 
     return {
-      data: resources,
-      total: resources.length
+      data: response.json.data,
+      total: response.json.total
     };
 
   },
