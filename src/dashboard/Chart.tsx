@@ -1,45 +1,30 @@
 import { PieChart } from '@mui/x-charts/PieChart';
 import { useEffect, useState } from 'react';
 import { calculateSpidersCount, calculateSpiderAvailableAndMissingPercentage } from './ChartUtils';
+import { dataProvider } from '../dataProvider';
 
 export const Chart = () => {
 
     const [spiderAvailablePercentage, setSpiderAvailablePercentage] = useState(1);
     const [spiderMissingPercentage, setSpiderMissingPercentage] = useState(99);
 
-    useEffect(() => {        
-        // dbConnect();
+    useEffect(() => {                
+        initializeChart();
     }, []);
 
-    /* const dbConnect = async () => {
+    const initializeChart = async () => {
 
-        const endpoint = dbConfig.host;
-        const key = dbConfig.authKey;        
-        
-        const cosmosClient = new CosmosClient({ endpoint, key });
-        const databaseId = dbConfig.databaseId;
-        const containerId = dbConfig.containerId;
-
-        const dbResponse = await cosmosClient.databases.createIfNotExists({
-            id: databaseId
-        });
-        const database = dbResponse.database;
-
-        const coResponse = await database.containers.createIfNotExists({
-            id: containerId
+        const response = await dataProvider.getList("restaurants", {
+            pagination: {page: 0, perPage: 0},
+            sort: {field: "", order: "ASC"},
+            filter: undefined
         });
 
-        const container = coResponse.container;
+        const restaurants = response.data;
 
-        const restaurantsCountQuery = "SELECT VALUE COUNT(1) from c";                
-        const restaurantSpidersCountQuery = "SELECT VALUE COUNT(c.foodItems) from c";
+        const restaurantsCount = restaurants.length;
 
-        
-        const restaurantsQuery = "SELECT * from c";
-        const { resources } = await container.items.query(restaurantsQuery).fetchAll();        
-
-        const restaurantsCount = resources.length;
-        var restaurantSpidersCount = calculateSpidersCount(resources);
+        var restaurantSpidersCount = calculateSpidersCount(restaurants);
         
         const spiderAvailableAndMissingPercentage =
             calculateSpiderAvailableAndMissingPercentage(restaurantsCount, restaurantSpidersCount);
@@ -48,16 +33,16 @@ export const Chart = () => {
         const missingPercentage = spiderAvailableAndMissingPercentage["missingPercentage"];
 
         setSpiderAvailablePercentage(availablePercentage);
-        setSpiderMissingPercentage(missingPercentage);        
+        setSpiderMissingPercentage(missingPercentage);
 
-    };   */      
+    };    
 
     return <PieChart
         series={[
             {
                 data: [
-                    { id: 0, value: spiderAvailablePercentage, label: 'series A', color: 'green' },
-                    { id: 1, value: spiderMissingPercentage, label: 'series B', color: 'red' }
+                    { id: 0, value: spiderAvailablePercentage, label: 'Spider available for restaurants menu', color: 'green' },
+                    { id: 1, value: spiderMissingPercentage, label: 'Spider not available for now', color: 'red' }
                 ],
                 innerRadius: 30,
                 outerRadius: 99,

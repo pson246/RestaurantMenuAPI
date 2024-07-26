@@ -28,39 +28,14 @@ import {
   UpdateParams,
   UpdateResult
 } from "react-admin";
-import { Container, CosmosClient } from '@azure/cosmos';
-import { dbConfig } from "./dbConfig";
 
 const API_URL = import.meta.env.VITE_REACT_APP_API_URL || process.env.VITE_REACT_APP_API_URL || "";
 
 export const dataProvider: DataProvider = {  
 
-  async getContainer(): Promise<Container> {
-    
-    const endpoint = dbConfig.host;
-    const key = dbConfig.authKey;
-
-    const cosmosClient = new CosmosClient({ endpoint, key });
-    const databaseId = dbConfig.databaseId;
-    const containerId = dbConfig.containerId;
-
-    const dbResponse = await cosmosClient.databases.createIfNotExists({
-      id: databaseId
-    });
-    const database = dbResponse.database;
-
-    const coResponse = await database.containers.createIfNotExists({
-      id: containerId
-    });
-
-    const container = coResponse.container;
-
-    return container;
-
-  },
   getList: async (_resource, _params) => {
 
-    const response = await fetchUtils.fetchJson(`${API_URL}/api/EuropeFinlandHelsinkiRestaurantListHttp`);    
+    const response = await fetchUtils.fetchJson(`${API_URL}/api/EuropeFinlandHelsinkiRestaurantListHttp`);
 
     return {
       data: response.json.data,
@@ -70,24 +45,12 @@ export const dataProvider: DataProvider = {
   },
   getOne: async (_resource, params) => {
 
-    const container = await dataProvider.getContainer();
-    
     const restaurantId = String(params.id);
 
-    const restaurantQuery = {
-      query: `SELECT * FROM ${container.id} f WHERE f.id = @id`,
-      parameters: [{
-        name: "@id",
-        value: restaurantId,
-      }],
-    };
-
-    const { resources } = await container.items.query(restaurantQuery).fetchAll();
-
-    const restaurant = resources[0];
+    const response = await fetchUtils.fetchJson(`${API_URL}/api/EuropeFinlandHelsinkiRestaurantGetOneHttp/${restaurantId}`);
 
     return {
-      data: restaurant
+      data: response.json.data
     };
 
   },

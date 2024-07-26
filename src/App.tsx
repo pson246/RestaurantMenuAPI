@@ -4,7 +4,7 @@ import { authProvider } from "./authProvider";
 import { Dashboard } from "./dashboard/Dashboard";
 import { BrowserRouter } from "react-router-dom";
 import { LoginPage } from "ra-auth-msal";
-import { RestaurantList } from "./restaurants";
+import { RestaurantList, RestaurantShow } from "./restaurants";
 
 export const App = () => (
   import.meta.env.PROD ? 
@@ -15,14 +15,12 @@ export const App = () => (
       loginPage={LoginPage} */
       dashboard={Dashboard}>
       {/* <Resource name="restaurants" list={RestaurantList} edit={RestaurantEdit} show={RestaurantShow} /> */}
-      <Resource name="restaurants" list={RestaurantList}/>
+      <Resource name="restaurants" list={RestaurantList} show={RestaurantShow} />
     </Admin>
   </BrowserRouter> :
-  <BrowserRouter>
-    <Admin
-      dataProvider={dataProvider}      
-      dashboard={Dashboard}>      
-        <Resource name="restaurants" list={RestaurantList} />
-    </Admin>
-  </BrowserRouter>  
+  <Admin
+    dataProvider={dataProvider}      
+    dashboard={Dashboard}>      
+      <Resource name="restaurants" list={RestaurantList} show={RestaurantShow} />
+  </Admin>
 );
