@@ -11,8 +11,8 @@ export const App = () => (
   <BrowserRouter>
     <Admin
       dataProvider={dataProvider}
-      /* authProvider={authProvider}
-      loginPage={LoginPage} */
+      authProvider={authProvider}
+      loginPage={LoginPage}
       dashboard={Dashboard}>
       {/* <Resource name="restaurants" list={RestaurantList} edit={RestaurantEdit} show={RestaurantShow} /> */}
       <Resource name="restaurants" list={RestaurantList} show={RestaurantShow} />
