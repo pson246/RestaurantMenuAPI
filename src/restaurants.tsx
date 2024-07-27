@@ -12,7 +12,7 @@ import {
 
 export const RestaurantList = () => (
     <List>        
-        <Datagrid rowClick="show">
+        <Datagrid rowClick="show" isRowSelectable={selectable => false}>
             <TextField label="Restaurant Name" source="properties.name" />
             <TextField label="Opening Hours" source="properties.opening_hours" />
             {/* <EditButton /> */}
