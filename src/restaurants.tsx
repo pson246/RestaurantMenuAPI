@@ -13,8 +13,8 @@ import {
 export const RestaurantList = () => (
     <List>        
         <Datagrid rowClick="show">
-            <TextField label="Name" source="properties.name" />
-            <TextField label="Opening hours" source="properties.opening_hours" />
+            <TextField label="Restaurant Name" source="properties.name" />
+            <TextField label="Opening Hours" source="properties.opening_hours" />
             {/* <EditButton /> */}
         </Datagrid>
     </List>
@@ -25,13 +25,13 @@ export const RestaurantEdit = () => {
         <Edit title="Restaurant edit">
             <SimpleForm>
                 <Labeled sx={{ marginBottom: "10px" }}>
-                    <TextField label="Name" source="properties.name" sx={{ marginTop: "5px" }} />
+                    <TextField label="Restaurant Name" source="properties.name" sx={{ marginTop: "5px" }} />
                 </Labeled>
                 <Labeled sx={{ marginBottom: "10px" }}>
-                    <TextField label="Opening hours" source="properties.opening_hours" sx={{ marginTop: "5px" }} />
+                    <TextField label="Opening Hours" source="properties.opening_hours" sx={{ marginTop: "5px" }} />
                 </Labeled>
                 <Labeled>
-                    <TextInput label="Food items" source="properties.foodItems" />
+                    <TextInput label="Menu" source="properties.foodItems" />
                 </Labeled>                
             </SimpleForm>
         </Edit>
@@ -39,9 +39,17 @@ export const RestaurantEdit = () => {
 };
 
 export const RestaurantShow = () => (
-    <Show>
+    <Show title="Restaurant Show">
         <SimpleShowLayout>
-            <TextField source="properties.foodItems" />
+            <Labeled sx={{ marginBottom: "10px" }}>
+                <TextField label="Restaurant Name" source="properties.name" sx={{ marginTop: "5px" }} />
+            </Labeled>
+            <Labeled sx={{ marginBottom: "10px" }}>
+                <TextField label="Opening Hours" source="properties.opening_hours" sx={{ marginTop: "5px" }} />
+            </Labeled>
+            <Labeled>
+                <TextField label="Menu" source="properties.foodItems" />
+            </Labeled>
         </SimpleShowLayout>
     </Show>
 );
