@@ -1,0 +1,2 @@
+0.0.1
+Added initial chart, list and show views for first 10 of Europe/Finland/Helsinki restaurants
