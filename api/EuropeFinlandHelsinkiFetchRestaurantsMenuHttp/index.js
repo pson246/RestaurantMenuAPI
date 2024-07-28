@@ -1,32 +1,36 @@
-const { PlaywrightCrawler } = require('crawlee');
+const superagent = require("superagent");
+const cheerio = require("cheerio");
+const EUROPE_FINLAND_HELSINKI_PIKKU_RANSKA_LOUNAS_PAGE_URL = "http://www.pikkuranska.com/lounas.htm";
 
-const PIKKU_RANSKA_LOUNAS_PAGE_URL = "http://www.pikkuranska.com/lounas.htm";
+/* const containsOnlyOneCharacter = (str) => {
+    const letters = str.split("");
+    const uniqueCharacters = new Set(letters);
+    return (uniqueCharacters.size === 1);
+} */
+
+// lounas menu === lunch menu in Finnish
+var pikkuRanskaLounasMenu = "";
+
+const fetchPikkuRanskaLounasMenu = async (pageUrl) => {    
+    try {
+        const response = await superagent.get(pageUrl);
+        const $ = cheerio.load(response.text);
+        const menuItems = [];
+        $("p.MsoNormal b i span").map((i, element) => {             
+            const menuItem = $(element).text();
+            menuItems.push(menuItem);
+        });
+        pikkuRanskaLounasMenu = menuItems.join();
+    } catch (error) {
+        console.error("Error fetching lounas menu for restaurant Europe.Finland.Helsinki.PikkuRanska: ", error);
+    }    
+};
 
 module.exports = async function (context, req) {
-
-    var lounasMenu = "";
-
-    const crawler = new PlaywrightCrawler({        
-        requestHandler: async ({ page, request, enqueueLinks }) => {            
-            console.log(`Processing: ${request.url}`);
-            switch (request.url) {
-                case PIKKU_RANSKA_LOUNAS_PAGE_URL:
-                    lounasMenu = (await page.locator("p.MsoNormal b i span").allInnerTexts()).toString().replace(/\s/g, "").trim();
-                    break;
-            }                
-        },
-        maxRequestsPerCrawl: 50    
-    });
-    
-    await crawler.run(["http://www.pikkuranska.com/lounas.htm"]);
-
-    const pikkuRanskaMenu = {
-        restaurantName: "Pikku Ranska",
-        "lounasMenu": lounasMenu
-    }
-
+    await fetchPikkuRanskaLounasMenu(EUROPE_FINLAND_HELSINKI_PIKKU_RANSKA_LOUNAS_PAGE_URL);    
     context.res.json({
-        "PikkuRanska": pikkuRanskaMenu
+        "Europe.Finland.Helsinki.PikkuRanska": {
+            "lounasMenu": pikkuRanskaLounasMenu
+        }
     });
-
 }

@@ -9,7 +9,7 @@
   "dependencies": {
     "@azure/cosmos": "^4.0.0",
     "@azure/identity": "^4.4.0",
-    "crawlee": "^3.0.0",
-    "playwright": "*"
+    "cheerio": "^1.0.0-rc.12",
+    "superagent": "^9.0.2"
   }
 }
