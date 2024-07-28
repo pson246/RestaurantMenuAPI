@@ -7,9 +7,9 @@ var pikkuRanskaLounasMenu = "";
 const fetchPikkuRanskaLounasMenu = async (pageUrl) => {    
     try {
         const response = await superagent.get(pageUrl);        
-        const $ = cheerio.load(response.text, {decodeEntities: false});
+        const $ = cheerio.load(response.text);
         const menuItems = [];
-        $("p.MsoNormal b i span").map((i, element) => {                 
+        $("p.MsoNormal b i span").map((i, element) => {                
             const menuItem = $(element).text().replace(/\uFFFD/g, "").trim();
             menuItems.push(menuItem);            
         });
