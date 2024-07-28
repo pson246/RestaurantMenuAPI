@@ -1,24 +1,17 @@
 const superagent = require("superagent");
 const cheerio = require("cheerio");
 const EUROPE_FINLAND_HELSINKI_PIKKU_RANSKA_LOUNAS_PAGE_URL = "http://www.pikkuranska.com/lounas.htm";
-
-/* const containsOnlyOneCharacter = (str) => {
-    const letters = str.split("");
-    const uniqueCharacters = new Set(letters);
-    return (uniqueCharacters.size === 1);
-} */
-
 // lounas menu === lunch menu in Finnish
 var pikkuRanskaLounasMenu = "";
 
 const fetchPikkuRanskaLounasMenu = async (pageUrl) => {    
     try {
-        const response = await superagent.get(pageUrl);
-        const $ = cheerio.load(response.text);
+        const response = await superagent.get(pageUrl);        
+        const $ = cheerio.load(response.text, {decodeEntities: false});
         const menuItems = [];
-        $("p.MsoNormal b i span").map((i, element) => {             
-            const menuItem = $(element).text();
-            menuItems.push(menuItem);
+        $("p.MsoNormal b i span").map((i, element) => {                 
+            const menuItem = $(element).text().replace(/\uFFFD/g, "").trim();
+            menuItems.push(menuItem);            
         });
         pikkuRanskaLounasMenu = menuItems.join();
     } catch (error) {
