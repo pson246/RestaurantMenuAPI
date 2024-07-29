@@ -18,8 +18,7 @@ const fetchPikkuRanskaLounasMenu = async (pageUrl) => {
             url: pageUrl,
             responseType: "arraybuffer",
             responseEncoding: "binary"
-        });
-        
+        });        
         const responseText = response.data.toString("binary");   
         const $ = cheerio.load(responseText, {decodeEntities: true});
         const menuItems = [];
