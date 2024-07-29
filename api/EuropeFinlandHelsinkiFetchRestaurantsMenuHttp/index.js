@@ -28,13 +28,14 @@ const fetchPikkuRanskaLounasMenu = async (pageUrl) => {
             if (hasOneTypeOfCharacter(menuItem)) {
                 menuItem = menuItem.replace(/\s/g, '');
             } else {
-                menuItem = menuItem.replace(/\s/g, ' ').trim();
+                menuItem = menuItem.replace(/\s/g, ' ');
             }            
             if (menuItem !== '') {
                 menuItems.push(menuItem);
             }                        
         });                
-        pikkuRanskaLounasMenu = menuItems.join("");        
+        pikkuRanskaLounasMenu = menuItems.join("");
+        pikkuRanskaLounasMenu = pikkuRanskaLounasMenu.split(" ").filter((item) => item !== '').join(" ");        
     } catch (error) {
         console.error("Error fetching lounas menu for restaurant Europe.Finland.Helsinki.PikkuRanska: ", error);
     }    
