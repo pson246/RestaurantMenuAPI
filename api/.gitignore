@@ -98,7 +98,7 @@ __blobstorage__
 __queuestorage__
 __azurite_db*__.json
 
-# Crawlee output
+# Storage
 storage
 
 # Tests
