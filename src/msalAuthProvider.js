@@ -7,4 +7,3 @@ const myMSALObj = new PublicClientApplication(msalConfig);
 await myMSALObj.initialize();
 
 export const authProvider = msalAuthProvider({ msalInstance: myMSALObj });
-

@@ -10,6 +10,8 @@
     "@azure/cosmos": "^4.0.0",
     "@azure/identity": "^4.4.0",
     "axios": "^1.7.2",
-    "cheerio": "^1.0.0-rc.12"
+    "cheerio": "^1.0.0-rc.12",
+    "mysql": "^2.18.1",
+    "sanitize-html": "^2.13.0"
   }
 }
