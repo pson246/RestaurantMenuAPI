@@ -3,7 +3,8 @@ function containsPossiblePhoneNumber(str) {
 };
 
 function containsPossibleEmail(str) {
-    return str.match(/^\w+@[a-zA-Z_]+?\.[a-zA-Z]{2,20}$/)?.length > 0;
+    const lastAtIndex = str.lastIndexOf('@');
+    return lastAtIndex > 0 && str.indexOf('.', lastAtIndex) > lastAtIndex;
 };
 
 module.exports = {
