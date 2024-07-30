@@ -1,10 +1,10 @@
 import { Menu } from 'react-admin';
-import AttributionIcon from '@mui/icons-material/Attribution';
+import BalanceIcon from '@mui/icons-material/Balance';
 
 export const AppMenu = () => (
     <Menu>
         <Menu.DashboardItem />
         <Menu.ResourceItem name="restaurants" />        
-        <Menu.Item to="/attribution" primaryText="© OpenStreetMap" leftIcon={<AttributionIcon />} />
+        <Menu.Item to="/attribution" primaryText="© OpenStreetMap" leftIcon={<BalanceIcon />} />
     </Menu>
 );
