@@ -2,25 +2,13 @@ import { Admin, Resource } from "react-admin";
 import { dataProvider } from "./dataProvider";
 import { authProvider } from "./authProvider";
 import { Dashboard } from "./dashboard/Dashboard";
-import { BrowserRouter } from "react-router-dom";
-import { LoginPage } from "ra-auth-msal";
 import { RestaurantList, RestaurantShow } from "./restaurants";
 
-export const App = () => (
-  import.meta.env.PROD ? 
-  <BrowserRouter>
-    <Admin
-      dataProvider={dataProvider}
-      authProvider={authProvider}
-      loginPage={LoginPage}
-      dashboard={Dashboard}>
-      {/* <Resource name="restaurants" list={RestaurantList} edit={RestaurantEdit} show={RestaurantShow} /> */}
-      <Resource name="restaurants" list={RestaurantList} show={RestaurantShow} />
-    </Admin>
-  </BrowserRouter> :
+export const App = () => (  
   <Admin
-    dataProvider={dataProvider}      
-    dashboard={Dashboard}>      
-      <Resource name="restaurants" list={RestaurantList} show={RestaurantShow} />
+      dataProvider={dataProvider}
+      authProvider={authProvider}      
+      dashboard={Dashboard}>
+    <Resource name="restaurants" list={RestaurantList} show={RestaurantShow} />
   </Admin>
 );
