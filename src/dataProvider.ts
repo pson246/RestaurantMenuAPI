@@ -1,11 +1,9 @@
 /*
 import jsonServerProvider from "ra-data-json-server";
-
 export const dataProvider = jsonServerProvider(
   import.meta.env.VITE_JSON_SERVER_URL
 );
  */
-
 import {
   CreateParams,
   CreateResult,
@@ -32,27 +30,19 @@ import {
 const API_URL = import.meta.env.VITE_REACT_APP_API_URL || process.env.VITE_REACT_APP_API_URL || "";
 
 export const dataProvider: DataProvider = {  
-
   getList: async (_resource, _params) => {
-
-    const response = await fetchUtils.fetchJson(`${API_URL}/api/EuropeFinlandHelsinkiRestaurantListHttp`);
-
+    const response = await fetchUtils?.fetchJson(`${API_URL}/api/EuropeFinlandHelsinkiRestaurantListHttp`);
     return {
-      data: response.json.data,
-      total: response.json.total
+      data: response?.json?.data,
+      total: response?.json?.total
     };
-
   },
   getOne: async (_resource, params) => {
-
-    const restaurantId = String(params.id);
-
-    const response = await fetchUtils.fetchJson(`${API_URL}/api/EuropeFinlandHelsinkiRestaurantGetOneHttp/${restaurantId}`);
-
+    const restaurantId = String(params?.id);
+    const response = await fetchUtils?.fetchJson(`${API_URL}/api/EuropeFinlandHelsinkiRestaurantGetOneHttp/${restaurantId}`);
     return {
-      data: response.json.data
+      data: response?.json?.data
     };
-
   },
   getMany: function <RecordType extends RaRecord<Identifier> = any>(resource: string, params: GetManyParams): Promise<GetManyResult<RecordType>> {
     throw new Error("Function not implemented.");
@@ -75,5 +65,4 @@ export const dataProvider: DataProvider = {
   deleteMany: function <RecordType extends RaRecord<Identifier> = any>(resource: string, params: DeleteManyParams<RecordType>): Promise<DeleteManyResult<RecordType>> {
     throw new Error("Function not implemented.");
   }
-  
 };

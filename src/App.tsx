@@ -2,7 +2,7 @@ import { Admin, CustomRoutes, Resource } from "react-admin";
 import { dataProvider } from "./dataProvider";
 import { authProvider } from "./authProvider";
 import { Dashboard } from "./dashboard/Dashboard";
-import { RestaurantList, RestaurantShow } from "./restaurants";
+import { RestaurantList, RestaurantShow } from "./AppRestaurants";
 import { Route } from 'react-router-dom';
 import { OpenStreetMapAttribution } from "./OpenStreetMapAttribution";
 import { AppLayout } from "./AppLayout";
