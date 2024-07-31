@@ -79,8 +79,8 @@ const updatePikkuRanskaLounasMenu = async (menu) => {
 };
 
 module.exports = async function (context, req) {    
-    await fetchPikkuRanskaLounasMenu(EUROPE_FINLAND_HELSINKI_PIKKU_RANSKA.LOUNAS_PAGE_URL);
-    pikkuRanskaMenuUpdateResponse = await updatePikkuRanskaLounasMenu(pikkuRanskaLounasMenu);
+    // await fetchPikkuRanskaLounasMenu(EUROPE_FINLAND_HELSINKI_PIKKU_RANSKA.LOUNAS_PAGE_URL);
+    // pikkuRanskaMenuUpdateResponse = await updatePikkuRanskaLounasMenu(pikkuRanskaLounasMenu);
     context.res.json({
         "Europe.Finland.Helsinki.PikkuRanska": {
             "lounasMenu": pikkuRanskaLounasMenu,
