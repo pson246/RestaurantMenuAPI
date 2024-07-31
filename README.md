@@ -1,11 +1,11 @@
 [![Azure Static Web Apps CI/CD](https://github.com/pson246/spideravailabilitydashboard/actions/workflows/azure-static-web-apps-victorious-glacier-0540dc403.yml/badge.svg?branch=master)](https://github.com/pson246/spideravailabilitydashboard/actions/workflows/azure-static-web-apps-victorious-glacier-0540dc403.yml)
 
+# spideravailabilitydashboard
+
 ## License
 
 The project is dual-licensed under Apache 2.0 and MIT.
 You can choose between one of them if you use this project.
-
-# spideravailabilitydashboard
 
 ## Installation
 
