@@ -14,8 +14,7 @@ export const RestaurantList = () => (
     <List>        
         <Datagrid rowClick="show" isRowSelectable={selectable => false}>
             <TextField label="Restaurant Name" source="properties.name" />
-            <TextField label="Opening Hours" source="properties.opening_hours" />
-            {/* <EditButton /> */}
+            <TextField label="Opening Hours" source="properties.opening_hours" />            
         </Datagrid>
     </List>
 );
@@ -30,8 +29,8 @@ export const RestaurantEdit = () => {
                 <Labeled sx={{ marginBottom: "10px" }}>
                     <TextField label="Opening Hours" source="properties.opening_hours" sx={{ marginTop: "5px" }} />
                 </Labeled>
-                <Labeled>
-                    <TextInput label="Menu" source="properties.foodItems" />
+                <Labeled sx={{ marginBottom: "10px" }}>
+                    <TextInput label="Menu" source="menu" sx={{ marginTop: "5px" }} />
                 </Labeled>                
             </SimpleForm>
         </Edit>
@@ -47,8 +46,8 @@ export const RestaurantShow = () => (
             <Labeled sx={{ marginBottom: "10px" }}>
                 <TextField label="Opening Hours" source="properties.opening_hours" sx={{ marginTop: "5px" }} />
             </Labeled>
-            <Labeled>
-                <TextField label="Menu" source="properties.foodItems" />
+            <Labeled sx={{ marginBottom: "10px" }}>
+                <TextField label="Menu" source="menu" sx={{ marginTop: "5px" }} />
             </Labeled>
         </SimpleShowLayout>
     </Show>

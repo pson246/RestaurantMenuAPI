@@ -1,7 +1,6 @@
 import { Configuration } from "@azure/msal-browser";
 
 export const msalConfig: Configuration = {
-
   auth: {
     // 'Application (client) ID' of app registration in Azure portal - this value is a GUID
     clientId: import.meta.env.VITE_MSAL_CLIENT_ID || process.env.VITE_MSAL_CLIENT_ID || "",
@@ -15,6 +14,5 @@ export const msalConfig: Configuration = {
   cache: {
     cacheLocation: "sessionStorage", // This configures where your cache will be stored
     storeAuthStateInCookie: false, // Set this to "true" if you are having issues on IE11 or Edge
-  }
-  
+  }  
 };

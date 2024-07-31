@@ -4,39 +4,27 @@ import { calculateSpidersCount, calculateSpiderAvailableAndMissingPercentage } f
 import { dataProvider } from '../dataProvider';
 
 export const Chart = () => {
-
     const [spiderAvailablePercentage, setSpiderAvailablePercentage] = useState(1);
     const [spiderMissingPercentage, setSpiderMissingPercentage] = useState(99);
-
     useEffect(() => {                
         initializeChart();
     }, []);
-
     const initializeChart = async () => {
-
-        const response = await dataProvider.getList("restaurants", {
+        const response = await dataProvider?.getList("restaurants", {
             pagination: {page: 0, perPage: 0},
             sort: {field: "", order: "ASC"},
             filter: undefined
         });
-
-        const restaurants = response.data;
-
-        const restaurantsCount = restaurants.length;
-
-        var restaurantSpidersCount = calculateSpidersCount(restaurants);
-        
+        const restaurants = response?.data;
+        const restaurantsCount = restaurants?.length;
+        var restaurantSpidersCount = calculateSpidersCount(restaurants);        
         const spiderAvailableAndMissingPercentage =
-            calculateSpiderAvailableAndMissingPercentage(restaurantsCount, restaurantSpidersCount);
-        
+            calculateSpiderAvailableAndMissingPercentage(restaurantsCount, restaurantSpidersCount);        
         const availablePercentage = spiderAvailableAndMissingPercentage["availablePercentage"];
         const missingPercentage = spiderAvailableAndMissingPercentage["missingPercentage"];
-
         setSpiderAvailablePercentage(availablePercentage);
         setSpiderMissingPercentage(missingPercentage);
-
-    };    
-
+    };
     return <PieChart
         series={[
             {
