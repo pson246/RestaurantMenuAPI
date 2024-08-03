@@ -1,2 +1,5 @@
+0.0.2
+4.8.2024: Added menu bulk update functionality for 1st restaurant in Europe/Finland/Helsinki
+
 0.0.1
-Added initial chart, list and show views for first 10 of Europe/Finland/Helsinki restaurants
+28.7.2024: Added initial chart, list and show views for first 10 of Europe/Finland/Helsinki restaurants
