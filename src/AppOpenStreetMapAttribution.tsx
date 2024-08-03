@@ -7,7 +7,7 @@ function BasicCard() {
   return (
     <Card sx={{ minWidth: 275 }}>
       <CardContent>
-        <Typography sx={{ fontSize: 14 }} color="text.secondary" gutterBottom>
+        <Typography sx={{ fontSize: 14, paddingTop: '5px', fontWeight: 'normal'}} color="text.secondary">
             © OpenStreetMap, data is available under the <a href="https://www.openstreetmap.org/copyright">Open Database License</a>
         </Typography>        
       </CardContent>      
@@ -18,7 +18,7 @@ function BasicCard() {
 export const OpenStreetMapAttribution = () => {
     return (
         <Grid container spacing={2} mt={1}>
-            <Grid item xs={12} md={9}>
+            <Grid item xs={12} md={12}>
                 <BasicCard />
             </Grid>
         </Grid>

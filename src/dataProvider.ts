@@ -13,16 +13,14 @@ import {
   DeleteParams,
   DeleteResult,
   fetchUtils,
+  //GetOneParams,
+  //GetOneResult,
   GetManyParams,
   GetManyReferenceParams,
   GetManyReferenceResult,
   GetManyResult,
-  //GetOneParams,
-  //GetOneResult,
   Identifier,
-  RaRecord,
-  UpdateManyParams,
-  UpdateManyResult,
+  RaRecord,  
   UpdateParams,
   UpdateResult
 } from "react-admin";
@@ -44,6 +42,12 @@ export const dataProvider: DataProvider = {
       data: response?.json?.data
     };
   },
+  updateMany: async (_resource, _params) => {
+    const response = await fetchUtils?.fetchJson(`${API_URL}/api/EuropeFinlandHelsinkiRestaurantMenuUpdateHttp`);
+    return {
+      data: response?.json?.data
+    };
+  },
   getMany: function <RecordType extends RaRecord<Identifier> = any>(resource: string, params: GetManyParams): Promise<GetManyResult<RecordType>> {
     throw new Error("Function not implemented.");
   },
@@ -51,9 +55,6 @@ export const dataProvider: DataProvider = {
     throw new Error("Function not implemented.");
   },
   update: function <RecordType extends RaRecord<Identifier> = any>(resource: string, params: UpdateParams<any>): Promise<UpdateResult<RecordType>> {
-    throw new Error("Function not implemented.");
-  },
-  updateMany: function <RecordType extends RaRecord<Identifier> = any>(resource: string, params: UpdateManyParams<any>): Promise<UpdateManyResult<RecordType>> {
     throw new Error("Function not implemented.");
   },
   create: function <RecordType extends Omit<RaRecord<Identifier>, "id"> = any, ResultRecordType extends RaRecord<Identifier> = RecordType & { id: Identifier; }>(resource: string, params: CreateParams<any>): Promise<CreateResult<ResultRecordType>> {

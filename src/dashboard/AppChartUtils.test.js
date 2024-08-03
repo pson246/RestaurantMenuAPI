@@ -1,5 +1,5 @@
 import { expect, test } from 'vitest';
-import { calculateSpidersCount } from './ChartUtils';
+import { calculateSpidersCount } from './AppChartUtils';
 
 test('spiders count should return 1', () => {    
     const restaurants = [ {
