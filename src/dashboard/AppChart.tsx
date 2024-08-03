@@ -1,6 +1,6 @@
 import { PieChart } from '@mui/x-charts/PieChart';
 import { useEffect, useState } from 'react';
-import { calculateSpidersCount, calculateSpiderAvailableAndMissingPercentage } from './ChartUtils';
+import { calculateSpidersCount, calculateSpiderAvailableAndMissingPercentage } from './AppChartUtils';
 import { dataProvider } from '../dataProvider';
 
 export const Chart = () => {
@@ -29,8 +29,8 @@ export const Chart = () => {
         series={[
             {
                 data: [
-                    { id: 0, value: spiderAvailablePercentage, label: 'Spider available for restaurants menu', color: 'green' },
-                    { id: 1, value: spiderMissingPercentage, label: 'Spider not available for now', color: 'red' }
+                    { id: 0, value: spiderAvailablePercentage, label: 'Restaurants Menu Available', color: 'green' },
+                    { id: 1, value: spiderMissingPercentage, label: 'Restaurants Menu Unavailable ', color: 'pink' }
                 ],
                 innerRadius: 30,
                 outerRadius: 99,

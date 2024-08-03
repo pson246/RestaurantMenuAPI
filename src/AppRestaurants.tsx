@@ -1,22 +1,38 @@
 import {
+    BulkUpdateButton,
     Datagrid,
-    Edit,
+    Edit,    
+    Identifier,    
     Labeled,
     List,
+    RaRecord,
     Show,
     SimpleForm,
     SimpleShowLayout,
     TextField,
-    TextInput
+    TextInput,
+    TopToolbar
 } from "react-admin";
 
 export const RestaurantList = () => (
-    <List>        
-        <Datagrid rowClick="show" isRowSelectable={selectable => false}>
-            <TextField label="Restaurant Name" source="properties.name" />
-            <TextField label="Opening Hours" source="properties.opening_hours" />            
+    <List actions={<TopToolbarButtons />}>   
+        <Datagrid bulkActionButtons={<BulkActionButtons />} isRowSelectable={record => record.short_menu?.trim() !== ""} rowClick={(id: Identifier, resource: string, record: RaRecord) => record.short_menu?.trim() !== "" ? "show" : false}>
+            <TextField label="Restaurant Name" source="properties.name" sortable={false} />
+            <TextField label="Opening Hours" source="properties.opening_hours" sortable={false} />
+            <TextField label="Menu" source="short_menu" sortable={false} />
         </Datagrid>
     </List>
+);
+
+const BulkActionButtons = () => (
+    <>
+        <BulkUpdateButton data={{}} label="Update Menu" mutationMode="optimistic" confirmTitle="Confirmation" confirmContent="Are you sure you want to update menu for selected restaurants?" />
+    </>
+);
+
+const TopToolbarButtons = () => (
+    <TopToolbar>        
+    </TopToolbar>
 );
 
 export const RestaurantEdit = () => {
