@@ -1,3 +1,6 @@
+0.0.3
+5.8.2024: Changed to bar chart
+
 0.0.2
 4.8.2024: Added menu bulk update functionality for 1st restaurant in Europe/Finland/Helsinki
 
