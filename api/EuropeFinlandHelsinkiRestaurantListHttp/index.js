@@ -9,28 +9,27 @@ module.exports = async function (context, req) {
   const restaurantsQuery = "SELECT * from c";
   const { resources } = await container.items.query(restaurantsQuery).fetchAll();
   const restaurants = [];
-  var count = 0;
-  for (const resource of resources) {        
-    count++;
+  for (const resource of resources) {            
     const menu = resource?.menu;
+    const name = resource?.properties?.name;
+    var shortName = "";
     var shortMenu = "";
-    var chartSeriesValues = [];
+    var chartSeriesValue = 0;
     try {
-      shortMenu = (!isEmpty(menu)) ? `${menu?.substring(0, 18)} ...` : "";
-      chartSeriesValues = (!isEmpty(menu)) ? [1] : [0];
+      shortMenu = (!isEmpty(menu)) ? `${menu?.substring(0, 15)} ...` : "";
+      shortName = (!isEmpty(name)) ? `${name?.substring(0, 10)} ...` : "";
+      chartSeriesValue = (!isEmpty(menu)) ? 1 : 0;
     } catch (e) {
       shortMenu = "";
-      chartSeriesValues = [0];
+      shortName = "";
+      chartSeriesValue = 0;
     }    
     const restaurant = {
       ...resource,
       ...{        
-        chart_name: `Restaurant ${count}`,
+        short_name: shortName,
         short_menu: shortMenu,        
-        chart_series_values: {
-          "data": chartSeriesValues,          
-          "label": resource?.properties?.name
-        }
+        chart_series_value: chartSeriesValue
       }
     };
     restaurants.push(restaurant);    

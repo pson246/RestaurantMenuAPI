@@ -7,9 +7,8 @@ import { BarChart } from "@mui/x-charts";
 };
  */
 const RESTAURANT_SCHEMA = {
-    "chart_series_values": {
-        data: [0]
-    }, "chart_name": "Restaurant A",
+    "chart_series_value": 1,
+    "short_name": "Ravintola ...",
     "properties": {
         "name": ""
     }
@@ -28,16 +27,22 @@ export const Chart = () => {
         });
         const data = restaurantsResponse?.data;
         setRestaurants(data);        
-    };
+    };    
     return (
         <Grid container spacing={2} mt={1}>
             <Grid item xs={12} md={12}>
                 <BarChart
                     xAxis={[{
                         scaleType: 'band',
-                        data: restaurants.map((restaurant) => restaurant?.chart_name)                        
+                        data: restaurants.map((restaurant) => restaurant?.short_name)                        
                     }]}
-                    series={restaurants.map((restaurant) => restaurant?.chart_series_values)}
+                    yAxis={[
+                        {
+                            label: 'Availability (0/1)',
+                        },
+                    ]}
+                    series={[
+                        { data: restaurants.map((restaurant) => restaurant?.chart_series_value) }]}
                     height={300}                    
                 />
             </Grid>
