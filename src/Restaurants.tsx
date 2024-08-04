@@ -1,16 +1,13 @@
 import {
     BulkUpdateButton,
     Datagrid,
-    Edit,    
     Identifier,    
     Labeled,
     List,
     RaRecord,
     Show,
-    SimpleForm,
     SimpleShowLayout,
     TextField,
-    TextInput,
     TopToolbar
 } from "react-admin";
 
@@ -34,24 +31,6 @@ const TopToolbarButtons = () => (
     <TopToolbar>        
     </TopToolbar>
 );
-
-export const RestaurantEdit = () => {
-    return (
-        <Edit title="Restaurant edit">
-            <SimpleForm>
-                <Labeled sx={{ marginBottom: "10px" }}>
-                    <TextField label="Restaurant Name" source="properties.name" sx={{ marginTop: "5px" }} />
-                </Labeled>
-                <Labeled sx={{ marginBottom: "10px" }}>
-                    <TextField label="Opening Hours" source="properties.opening_hours" sx={{ marginTop: "5px" }} />
-                </Labeled>
-                <Labeled sx={{ marginBottom: "10px" }}>
-                    <TextInput label="Menu" source="menu" sx={{ marginTop: "5px" }} />
-                </Labeled>                
-            </SimpleForm>
-        </Edit>
-    )
-};
 
 export const RestaurantShow = () => (
     <Show title="Restaurant Show">

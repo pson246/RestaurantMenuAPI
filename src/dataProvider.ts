@@ -35,6 +35,34 @@ export const dataProvider: DataProvider = {
       total: response?.json?.total
     };
   },
+  getChartData: async () => {
+    const restaurantsResponse = await fetchUtils?.fetchJson(`${API_URL}/api/EuropeFinlandHelsinkiRestaurantListHttp`);
+    const chartData = [];
+    for (const resource of restaurantsResponse?.json?.data) {                  
+      const name = resource?.properties?.name;
+      const menu = resource?.menu;
+      var chartName = "";      
+      var chartSeriesValue = 0;
+      try {              
+        if (menu && menu?.trim() !== "") {
+          chartSeriesValue = 1;
+          chartName = (name && name?.trim() !== "") ? name : "";
+        } else {
+          chartSeriesValue = 0;
+          chartName = (name && name?.trim() !== "") ? `${name?.substring(0, 10)} ...` : "";
+        }
+      } catch (e) {        
+        chartName = "";
+        chartSeriesValue = 0;
+      }    
+      const chartSeriesData = {        
+        chart_name: chartName,          
+        chart_series_value: chartSeriesValue
+      };
+      chartData.push(chartSeriesData);
+    }
+    return chartData;
+  },
   getOne: async (_resource, params) => {
     const restaurantId = String(params?.id);
     const response = await fetchUtils?.fetchJson(`${API_URL}/api/EuropeFinlandHelsinkiRestaurantGetOneHttp/${restaurantId}`);
