@@ -38,28 +38,26 @@ export const dataProvider: DataProvider = {
   getChartData: async () => {
     const restaurantsResponse = await fetchUtils?.fetchJson(`${API_URL}/api/EuropeFinlandHelsinkiRestaurantListHttp`);
     const chartData = [];
-    for (const resource of restaurantsResponse?.json?.data) {                  
-      const name = resource?.properties?.name;
-      const menu = resource?.menu;
-      var chartName = "";      
-      var chartSeriesValue = 0;
+    var count = 0;
+    for (const resource of restaurantsResponse?.json?.data) { 
+      count++;
+      const name = resource?.properties?.name || "";
+      const menu = resource?.menu;            
+      var yValue = 0;
       try {              
         if (menu && menu?.trim() !== "") {
-          chartSeriesValue = 1;
-          chartName = (name && name?.trim() !== "") ? name : "";
+          yValue = 1;          
         } else {
-          chartSeriesValue = 0;
-          chartName = (name && name?.trim() !== "") ? `${name?.substring(0, 10)} ...` : "";
+          yValue = 0;          
         }
-      } catch (e) {        
-        chartName = "";
-        chartSeriesValue = 0;
-      }    
-      const chartSeriesData = {        
-        chart_name: chartName,          
-        chart_series_value: chartSeriesValue
-      };
-      chartData.push(chartSeriesData);
+      } catch (e) {                
+        yValue = 0;        
+      }          
+      chartData.push({
+        x: count,
+        y: yValue,
+        id: name
+      });      
     }
     return chartData;
   },
