@@ -1,3 +1,6 @@
+0.0.4
+6.8.2024: Changed to scatter chart
+
 0.0.3
 5.8.2024: Changed to bar chart
 

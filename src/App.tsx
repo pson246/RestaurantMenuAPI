@@ -29,7 +29,7 @@ export const App = () => (
 const AdminMenu = () => (
     <Menu>        
         <Menu.ResourceItem name="restaurants" />
-        <Menu.Item to="/chart" primaryText="Chart" leftIcon={<DashboardIcon />} />
+        <Menu.Item to="/chart" primaryText="Menu Availability" leftIcon={<DashboardIcon />} />
         <Menu.Item to="/attribution" primaryText="© OpenStreetMap" leftIcon={<BalanceIcon />} />
     </Menu>
 );
