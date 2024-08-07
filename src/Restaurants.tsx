@@ -1,22 +1,42 @@
 import {
     BulkUpdateButton,
-    Datagrid,
-    Identifier,    
+    Datagrid,    
     Labeled,
-    List,
-    RaRecord,
+    List,    
     Show,
     SimpleShowLayout,
     TextField,
-    TopToolbar
+    TopToolbar,
+    useRecordContext
 } from "react-admin";
+
+const RestaurantPanel = () => {
+    const record = useRecordContext();
+    var lunchMenu = undefined;
+    var alacarteMenu = undefined;
+    var menuHtml = "";
+    if (record.lunchMenu && record.lunchMenu?.trim() !== "") {
+        lunchMenu = record.lunchMenu;
+    }
+    if (record.alacarteMenu && record.alacarteMenu?.trim() !== "") {
+        alacarteMenu = record.alacarteMenu;
+    }
+    if (lunchMenu || alacarteMenu) {
+        menuHtml = "Lunch menu<br/><br/>" + lunchMenu + "<br/><br/>À la carte menu<br/><br/>" + alacarteMenu;
+    } else {
+        menuHtml = "<br/>";
+    }
+    return (
+        <div dangerouslySetInnerHTML={{ __html: menuHtml }} />
+    );
+};
 
 export const RestaurantList = () => (
     <List actions={<TopToolbarButtons />}>   
-        <Datagrid bulkActionButtons={<BulkActionButtons />} isRowSelectable={record => record.short_menu?.trim() !== ""} rowClick={(id: Identifier, resource: string, record: RaRecord) => record.short_menu?.trim() !== "" ? "show" : false}>
+        <Datagrid bulkActionButtons={<BulkActionButtons />} expand={<RestaurantPanel />} isRowSelectable={record => (record.lunchMenu || record.alacarteMenu)? true : false} rowClick={false}>
             <TextField label="Restaurant Name" source="properties.name" sortable={false} />
-            <TextField label="Opening Hours" source="properties.opening_hours" sortable={false} />
-            <TextField label="Menu" source="short_menu" sortable={false} />
+            <TextField label="Opening Hours" source="properties.opening_hours" sortable={false} />            
+            <TextField label="Website" source="properties.contact:website" sortable={false} />
         </Datagrid>
     </List>
 );

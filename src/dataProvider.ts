@@ -37,29 +37,54 @@ export const dataProvider: DataProvider = {
   },
   getChartData: async () => {
     const restaurantsResponse = await fetchUtils?.fetchJson(`${API_URL}/api/EuropeFinlandHelsinkiRestaurantListHttp`);
-    const chartData = [];
-    var count = 0;
-    for (const resource of restaurantsResponse?.json?.data) { 
-      count++;
+    const lunchMenuAvailabilitySeries = [];
+    const alacarteMenuAvailabilitySeries = [];
+    var x1Value = 0;
+    var x2Value = 0;    
+    for (const resource of restaurantsResponse?.json?.data) {       
+      x2Value += 1;
+      x1Value = x2Value - 0.1;
       const name = resource?.properties?.name || "";
-      const menu = resource?.menu;            
-      var yValue = 0;
+      const lunchMenu = resource?.lunchMenu || "";
+      const alacarteMenu = resource?.alacarteMenu || "";
+      var y1Value = 0;
+      var y2Value = 0;
       try {              
-        if (menu && menu?.trim() !== "") {
-          yValue = 1;          
+        if (lunchMenu && lunchMenu?.trim() !== "") {
+          y1Value = 1;          
         } else {
-          yValue = 0;          
+          y1Value = 0;          
+        }
+        if (alacarteMenu && alacarteMenu?.trim() !== "") {
+          y2Value = 1;          
+        } else {
+          y2Value = 0;          
         }
       } catch (e) {                
-        yValue = 0;        
+        y1Value = 0;
+        y2Value = 0;
       }          
-      chartData.push({
-        x: count,
-        y: yValue,
+      lunchMenuAvailabilitySeries.push({
+        x: x1Value,
+        y: y1Value,        
         id: name
-      });      
+      });
+      alacarteMenuAvailabilitySeries.push({
+        x: x2Value,
+        y: y2Value,     
+        id: name
+      });
     }
-    return chartData;
+    return [
+      {
+        "label": "Lunch menu availability",
+        "data": lunchMenuAvailabilitySeries
+      },
+      {
+        "label": "À la carte menu availability",
+        "data": alacarteMenuAvailabilitySeries
+      },
+    ];
   },
   getOne: async (_resource, params) => {
     const restaurantId = String(params?.id);
