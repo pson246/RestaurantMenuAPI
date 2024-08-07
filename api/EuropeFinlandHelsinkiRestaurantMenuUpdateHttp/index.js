@@ -2,12 +2,14 @@ const axios = require("axios");
 const cheerio = require("cheerio");
 const { getContainer } = require("../containerProvider.js");
 const { containsPossibleEmail, containsPossiblePhoneNumber } = require("../menuContentValidator.js");
-// lounas menu === lunch menu in Finnish
-var pikkuRanskaLounasMenu = "";
+
+var pikkuRanskaLunchMenu = "";
+var pikkuRanskaAlacarteMenu = "";
 var updateStatus = "";
 const EUROPE_FINLAND_HELSINKI_PIKKU_RANSKA = {
     NAME: "Pikku Ranska",
-    LOUNAS_PAGE_URL: "http://www.pikkuranska.com/lounas.htm"
+    LUNCH_PAGE_URL: "http://www.pikkuranska.com/lounas.htm",
+    ALACARTE_PAGE_URL: "http://www.pikkuranska.com/alacarte.htm"
 };
 const STATUS_SUCCESS = "success";
 const STATUS_ERROR = "error";
@@ -19,7 +21,8 @@ const hasOneTypeOfCharacter = (str) => {
     return (set?.size === 2);
 };
 
-const fetchPikkuRanskaLounasMenu = async (pageUrl) => {    
+const fetchPikkuRanskaMenu = async (menuSelector, pageUrl) => {
+    var menu = "";
     try {
         const response = await axios?.request({
             method: "GET",
@@ -30,7 +33,7 @@ const fetchPikkuRanskaLounasMenu = async (pageUrl) => {
         const responseText = response?.data?.toString("binary");   
         const $ = cheerio?.load(responseText, {decodeEntities: true});
         const menuItems = [];
-        $("p.MsoNormal b i span").map((i, element) => {            
+        $(menuSelector).map((i, element) => {       
             var menuItem = $(element)?.text();
             if (hasOneTypeOfCharacter(menuItem)) {
                 menuItem = menuItem?.replace(/\s/g, '');
@@ -41,18 +44,31 @@ const fetchPikkuRanskaLounasMenu = async (pageUrl) => {
                 menuItems.push(menuItem);
             }                        
         });                
-        pikkuRanskaLounasMenu = menuItems?.join("");
-        pikkuRanskaLounasMenu = pikkuRanskaLounasMenu?.split(" ")?.filter((item) => item !== '')?.join(" ");          
+        menu = menuItems?.join("");
+        menu = menu?.split(" ")?.filter((item) => item !== '')?.join(" ");
     } catch (error) {
-        console.log("Error fetching lounas menu for restaurant Europe.Finland.Helsinki.PikkuRanska: ", error);
-    }    
+        menu = "";
+        console.log("Error fetching menu for restaurant Europe.Finland.Helsinki.PikkuRanska: ", error);
+    } 
+    return menu;
 };
 
-const updatePikkuRanskaLounasMenu = async (menu) => {
+const fetchPikkuRanskaLunchMenu = async () => {
+    pikkuRanskaLunchMenu = await fetchPikkuRanskaMenu("p.MsoNormal b i span",
+        EUROPE_FINLAND_HELSINKI_PIKKU_RANSKA.LUNCH_PAGE_URL);   
+};
+
+const fetchPikkuRanskaAlacarteMenu = async () => {    
+    pikkuRanskaAlacarteMenu = await fetchPikkuRanskaMenu("p.Standard0 span i span",
+        EUROPE_FINLAND_HELSINKI_PIKKU_RANSKA.ALACARTE_PAGE_URL);
+};
+
+const updatePikkuRanskaMenu = async () => {
     try {
-        var response = "";        
-        if (containsPossiblePhoneNumber(menu) || containsPossibleEmail(menu)) {
-            console.log("Lounas menu for restaurant Europe.Finland.Helsinki.PikkuRanska contains personal info.");            
+        var response = "";     
+        if (containsPossiblePhoneNumber(pikkuRanskaLunchMenu) || containsPossibleEmail(pikkuRanskaLunchMenu) ||
+            containsPossiblePhoneNumber(pikkuRanskaAlacarteMenu) || containsPossibleEmail(pikkuRanskaAlacarteMenu)) {
+            console.log("Menu for restaurant Europe.Finland.Helsinki.PikkuRanska contains personal info.");            
             response = STATUS_ERROR;
         } else {
             const container = await getContainer();
@@ -67,8 +83,9 @@ const updatePikkuRanskaLounasMenu = async (menu) => {
             const restaurant = resources[0];
             const id = restaurant?.id;
             const partitionKey = restaurant?.partitionkeyvalue?.restaurantid;
-            const operations = [
-                { op: "add", path: '/menu', value: menu }
+            const operations = [                
+                { op: "add", path: '/lunchMenu', value: pikkuRanskaLunchMenu },
+                { op: "add", path: '/alacarteMenu', value: pikkuRanskaAlacarteMenu }
             ];
             const { resource: updated } = await container?.item(id, partitionKey)?.patch(operations);
             if (updated?.partitionkeyvalue?.restaurantid && updated?.partitionkeyvalue?.restaurantid?.toString()?.trim() !== "") {
@@ -78,19 +95,20 @@ const updatePikkuRanskaLounasMenu = async (menu) => {
             }
         }
     } catch (error) {
-        console.log("Error updating lounas menu for restaurant Europe.Finland.Helsinki.PikkuRanska: ", error);
+        console.log("Error updating menu for restaurant Europe.Finland.Helsinki.PikkuRanska: ", error);
         response = STATUS_ERROR;
     }
     return response;
 };
 
 module.exports = async function (context, req) {    
-    await fetchPikkuRanskaLounasMenu(EUROPE_FINLAND_HELSINKI_PIKKU_RANSKA.LOUNAS_PAGE_URL);
-    updateStatus = await updatePikkuRanskaLounasMenu(pikkuRanskaLounasMenu);
+    await fetchPikkuRanskaLunchMenu();
+    await fetchPikkuRanskaAlacarteMenu();
+    updateStatus = await updatePikkuRanskaMenu();
     context.res.json({
         data: [
             {
-                "Europe.Finland.Helsinki.PikkuRanska": {            
+                "Europe.Finland.Helsinki.PikkuRanska": {      
                     "status": updateStatus
                 }
             }

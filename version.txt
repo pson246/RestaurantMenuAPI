@@ -1,3 +1,6 @@
+0.0.5
+7.8.2024: Categorized into lunch menu and à la carte menu, added à la carte menu for restaurant Pikku Ranska in Europe/Finland/Helsinki, temporarily not displaying RestaurantShow view for now
+
 0.0.4
 6.8.2024: Changed to scatter chart
 
