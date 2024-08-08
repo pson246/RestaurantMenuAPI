@@ -9,6 +9,10 @@ import {
     TopToolbar,
     useRecordContext
 } from "react-admin";
+import { encode } from "html-entities";
+
+const ENCODE_HTML_MODE = "nonAsciiPrintable";
+const ENCODE_HTML_LEVEL = "xml";
 
 const RestaurantPanel = () => {
     const record = useRecordContext();
@@ -18,16 +22,18 @@ const RestaurantPanel = () => {
     if (record.lunchMenu && record.lunchMenu?.trim() !== "") {
         lunchMenu = record.lunchMenu;
     }
+    lunchMenu = encode(lunchMenu, { mode: ENCODE_HTML_MODE, level: ENCODE_HTML_LEVEL });
     if (record.alacarteMenu && record.alacarteMenu?.trim() !== "") {
         alacarteMenu = record.alacarteMenu;
     }
+    alacarteMenu = encode(alacarteMenu, { mode: ENCODE_HTML_MODE, level: ENCODE_HTML_LEVEL });
     if (lunchMenu || alacarteMenu) {
         menuHtml = "Lunch menu<br/><br/>" + lunchMenu + "<br/><br/>À la carte menu<br/><br/>" + alacarteMenu;
     } else {
         menuHtml = "<br/>";
     }
     return (
-        <div dangerouslySetInnerHTML={{ __html: menuHtml }} />
+        <div dangerouslySetInnerHTML={{__html: menuHtml}} />
     );
 };
 

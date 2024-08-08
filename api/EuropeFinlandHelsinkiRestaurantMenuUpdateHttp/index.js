@@ -84,8 +84,8 @@ const updatePikkuRanskaMenu = async () => {
             const id = restaurant?.id;
             const partitionKey = restaurant?.partitionkeyvalue?.restaurantid;
             const operations = [                
-                { op: "add", path: '/lunchMenu', value: pikkuRanskaLunchMenu },
-                { op: "add", path: '/alacarteMenu', value: pikkuRanskaAlacarteMenu }
+                { op: "add", path: "/lunchMenu", value: pikkuRanskaLunchMenu },
+                { op: "add", path: "/alacarteMenu", value: pikkuRanskaAlacarteMenu }
             ];
             const { resource: updated } = await container?.item(id, partitionKey)?.patch(operations);
             if (updated?.partitionkeyvalue?.restaurantid && updated?.partitionkeyvalue?.restaurantid?.toString()?.trim() !== "") {
@@ -108,7 +108,7 @@ module.exports = async function (context, req) {
     context.res.json({
         data: [
             {
-                "Europe.Finland.Helsinki.PikkuRanska": {      
+                "Europe.Finland.Helsinki.PikkuRanska": {                    
                     "status": updateStatus
                 }
             }
