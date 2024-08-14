@@ -1,6 +1,7 @@
 const axios = require("axios");
 const cheerio = require("cheerio");
 const { getContainer } = require("../containerProvider.js");
+const { isEmpty } = require("../stringUtils.js");
 const { containsPossibleEmail, containsPossiblePhoneNumber } = require("../menuContentValidator.js");
 
 var pikkuRanskaLunchMenu = "";
@@ -88,7 +89,7 @@ const updatePikkuRanskaMenu = async () => {
                 { op: "add", path: "/alacarteMenu", value: pikkuRanskaAlacarteMenu }
             ];
             const { resource: updated } = await container?.item(id, partitionKey)?.patch(operations);
-            if (updated?.partitionkeyvalue?.restaurantid && updated?.partitionkeyvalue?.restaurantid?.toString()?.trim() !== "") {
+            if (!isEmpty(updated?.id)) {
                 response = STATUS_SUCCESS;
             } else {
                 response = STATUS_ERROR;

@@ -5,6 +5,9 @@ export const dataProvider = jsonServerProvider(
 );
  */
 import {
+  // UpdateResult
+  // GetOneParams,
+  // GetOneResult,
   CreateParams,
   CreateResult,
   DataProvider,
@@ -12,17 +15,14 @@ import {
   DeleteManyResult,
   DeleteParams,
   DeleteResult,
-  fetchUtils,
-  //GetOneParams,
-  //GetOneResult,
+  fetchUtils,  
   GetManyParams,
   GetManyReferenceParams,
   GetManyReferenceResult,
   GetManyResult,
   Identifier,
   RaRecord,  
-  UpdateParams,
-  UpdateResult
+  UpdateParams  
 } from "react-admin";
 
 const API_URL = import.meta.env.VITE_REACT_APP_API_URL || process.env.VITE_REACT_APP_API_URL || "";
@@ -93,21 +93,28 @@ export const dataProvider: DataProvider = {
       data: response?.json?.data
     };
   },
+  update: async (_resource: string, params: UpdateParams<any>) => {
+    const restaurantId = String(params?.id);    
+    const response = await fetchUtils?.fetchJson(`${API_URL}/api/EuropeFinlandHelsinkiRestaurantUpdateHttp/${restaurantId}`, {
+      method: "POST",            
+      body: JSON.stringify({ "website": params.data?.properties["contact:website"] })
+    }); 
+    return {
+      data: response?.json?.data
+    };
+  },
   updateMany: async (_resource, _params) => {
     const response = await fetchUtils?.fetchJson(`${API_URL}/api/EuropeFinlandHelsinkiRestaurantMenuUpdateHttp`);
     return {
       data: response?.json?.data
     };
-  },
+  },  
   getMany: function <RecordType extends RaRecord<Identifier> = any>(resource: string, params: GetManyParams): Promise<GetManyResult<RecordType>> {
     throw new Error("Function not implemented.");
   },
   getManyReference: function <RecordType extends RaRecord<Identifier> = any>(resource: string, params: GetManyReferenceParams): Promise<GetManyReferenceResult<RecordType>> {
     throw new Error("Function not implemented.");
-  },
-  update: function <RecordType extends RaRecord<Identifier> = any>(resource: string, params: UpdateParams<any>): Promise<UpdateResult<RecordType>> {
-    throw new Error("Function not implemented.");
-  },
+  },  
   create: function <RecordType extends Omit<RaRecord<Identifier>, "id"> = any, ResultRecordType extends RaRecord<Identifier> = RecordType & { id: Identifier; }>(resource: string, params: CreateParams<any>): Promise<CreateResult<ResultRecordType>> {
     throw new Error("Function not implemented.");
   },

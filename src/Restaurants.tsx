@@ -1,11 +1,13 @@
 import {
     BulkUpdateButton,
     Datagrid,    
+    Edit,
     Labeled,
     List,    
-    Show,
-    SimpleShowLayout,
+    RaRecord,        
+    SimpleForm,
     TextField,
+    TextInput,
     TopToolbar,
     useRecordContext
 } from "react-admin";
@@ -37,16 +39,6 @@ const RestaurantPanel = () => {
     );
 };
 
-export const RestaurantList = () => (
-    <List actions={<TopToolbarButtons />}>   
-        <Datagrid bulkActionButtons={<BulkActionButtons />} expand={<RestaurantPanel />} isRowSelectable={record => (record.lunchMenu || record.alacarteMenu)? true : false} rowClick={false}>
-            <TextField label="Restaurant Name" source="properties.name" sortable={false} />
-            <TextField label="Opening Hours" source="properties.opening_hours" sortable={false} />            
-            <TextField label="Website" source="properties.contact:website" sortable={false} />
-        </Datagrid>
-    </List>
-);
-
 const BulkActionButtons = () => (
     <>
         <BulkUpdateButton data={{}} label="Update Menu" mutationMode="optimistic" confirmTitle="Confirmation" confirmContent="Are you sure you want to update menu for selected restaurants?" />
@@ -58,18 +50,44 @@ const TopToolbarButtons = () => (
     </TopToolbar>
 );
 
-export const RestaurantShow = () => (
-    <Show title="Restaurant Show">
-        <SimpleShowLayout>
-            <Labeled sx={{ marginBottom: "10px" }}>
-                <TextField label="Restaurant Name" source="properties.name" sx={{ marginTop: "5px" }} />
-            </Labeled>
-            <Labeled sx={{ marginBottom: "10px" }}>
-                <TextField label="Opening Hours" source="properties.opening_hours" sx={{ marginTop: "5px" }} />
-            </Labeled>
-            <Labeled sx={{ marginBottom: "10px" }}>
-                <TextField label="Menu" source="menu" sx={{ marginTop: "5px" }} />
-            </Labeled>
-        </SimpleShowLayout>
-    </Show>
-);
+export const RestaurantList = () => {
+
+    const isRowSelectable = (restaurantRecord: RaRecord) => {
+        const result = (restaurantRecord.lunchMenu || restaurantRecord.alacarteMenu) ? true : false;
+        return result;
+    };
+
+    return (
+        <List actions={<TopToolbarButtons />}>
+            <Datagrid bulkActionButtons={<BulkActionButtons />} expand={<RestaurantPanel />} isRowSelectable={record => isRowSelectable(record)} rowClick={"edit"}>
+                <TextField label="Restaurant Name" source="properties.name" sortable={false} />
+                <TextField label="Opening Hours" source="properties.opening_hours" sortable={false} />
+                <TextField label="Website" source="properties.contact:website" sortable={false} />
+            </Datagrid>
+        </List>
+    );
+};
+
+export const RestaurantEdit = () => {
+    return (
+        <Edit title="Restaurant Edit">
+            <SimpleForm>
+                <Labeled sx={{ marginBottom: "10px" }}>
+                    <TextField label="Restaurant Name" source="properties.name" sx={{ marginTop: "5px" }} />
+                </Labeled>
+                <Labeled sx={{ marginBottom: "10px" }}>
+                    <TextField label="Lunch Menu" source="lunchMenu" sx={{ marginTop: "5px" }} />
+                </Labeled>
+                <Labeled sx={{ marginBottom: "10px" }}>
+                    <TextField label="À la carte Menu" source="alacarteMenu" sx={{ marginTop: "5px" }} />
+                </Labeled>
+                <Labeled sx={{ marginBottom: "10px" }}>
+                    <TextField label="Opening Hours" source="properties.opening_hours" sx={{ marginTop: "5px" }} />
+                </Labeled>
+                <Labeled sx={{ marginBottom: "10px" }}>
+                    <TextInput label="Website" source="properties.contact:website" sx={{ marginTop: "5px" }} />
+                </Labeled>
+            </SimpleForm>
+        </Edit>
+    );
+};
