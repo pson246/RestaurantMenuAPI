@@ -2,7 +2,7 @@ const { getContainer } = require("../containerProvider.js");
 
 module.exports = async function (context, req) {
     const container = await getContainer();
-    const restaurantId = req.params.id;    
+    const restaurantId = req.params.id;
     const restaurantQuery = {
         query: `SELECT * FROM ${container.id} f WHERE f.id = @id`,
         parameters: [{
@@ -15,4 +15,4 @@ module.exports = async function (context, req) {
     context.res.json({
         data: restaurant
     });
-}
+};

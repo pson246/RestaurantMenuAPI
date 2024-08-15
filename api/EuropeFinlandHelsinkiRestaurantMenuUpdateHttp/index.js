@@ -15,10 +15,10 @@ const EUROPE_FINLAND_HELSINKI_PIKKU_RANSKA = {
 const STATUS_SUCCESS = "success";
 const STATUS_ERROR = "error";
 
-const hasOneTypeOfCharacter = (str) => {
+// One type of character + new line character
+const hasTwoTypesOfCharacter = (str) => {
     const characters = str?.split("");
-    const set = new Set(characters);
-    // one type of character + new line character
+    const set = new Set(characters);    
     return (set?.size === 2);
 };
 
@@ -36,7 +36,7 @@ const fetchPikkuRanskaMenu = async (menuSelector, pageUrl) => {
         const menuItems = [];
         $(menuSelector).map((i, element) => {       
             var menuItem = $(element)?.text();
-            if (hasOneTypeOfCharacter(menuItem)) {
+            if (hasTwoTypesOfCharacter(menuItem)) {
                 menuItem = menuItem?.replace(/\s/g, '');
             } else {
                 menuItem = menuItem?.replace(/\s/g, ' ');
@@ -60,7 +60,7 @@ const fetchPikkuRanskaLunchMenu = async () => {
 };
 
 const fetchPikkuRanskaAlacarteMenu = async () => {    
-    pikkuRanskaAlacarteMenu = await fetchPikkuRanskaMenu("p.Standard0 span i span",
+    pikkuRanskaAlacarteMenu = await fetchPikkuRanskaMenu("p.MsoNormal, p.MsoListParagraphCxSpFirst, p.MsoListParagraphCxSpMiddle, p.MsoListParagraphCxSpLast",
         EUROPE_FINLAND_HELSINKI_PIKKU_RANSKA.ALACARTE_PAGE_URL);
 };
 
@@ -102,17 +102,17 @@ const updatePikkuRanskaMenu = async () => {
     return response;
 };
 
-module.exports = async function (context, req) {    
+module.exports = async function (context, req) {
     await fetchPikkuRanskaLunchMenu();
     await fetchPikkuRanskaAlacarteMenu();
     updateStatus = await updatePikkuRanskaMenu();
     context.res.json({
         data: [
             {
-                "Europe.Finland.Helsinki.PikkuRanska": {                    
+                "Europe.Finland.Helsinki.PikkuRanska": {
                     "status": updateStatus
                 }
             }
         ]
     });
-}
+};

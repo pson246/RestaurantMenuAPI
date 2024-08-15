@@ -17,7 +17,7 @@ const authenticate = async (request) => {
         actualPassword = sanitizeHtml(actualPassword);
         actualPassword = mysql.escape(actualPassword);
         actualPassword = actualPassword.replaceAll('\'', '');
-        if (actualUsername === expectedUsername && actualPassword === expectedPassword) {            
+        if (actualUsername === expectedUsername && actualPassword === expectedPassword) {
             authenticationResult = SUCCESS;
         } else {
             authenticationResult = ERROR;
@@ -25,11 +25,11 @@ const authenticate = async (request) => {
     } catch (error) {
         authenticationResult = ERROR;
     }
-}
+};
 
 module.exports = async function (context, req) {
-    await authenticate(req);    
+    await authenticate(req);
     context.res.json({
         "result": authenticationResult
     });
-}
+};
