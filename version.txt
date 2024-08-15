@@ -1,3 +1,6 @@
+0.0.8
+15.8.2024: Updated à la carte menu selector for restaurant Pikku Ranska in Europe/Finland/Helsinki
+
 0.0.7
 14.8.2024: Added edit functionality to update websites
 
