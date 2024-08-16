@@ -1,7 +1,7 @@
 const sanitizeHtml = require("sanitize-html");
 const mysql = require("mysql");
-const ERROR = "error";
-const SUCCESS = "success";
+const error = "error";
+const success = "success";
 var authenticationResult = "";
 
 const authenticate = async (request) => {
@@ -18,12 +18,12 @@ const authenticate = async (request) => {
         actualPassword = mysql.escape(actualPassword);
         actualPassword = actualPassword.replaceAll('\'', '');
         if (actualUsername === expectedUsername && actualPassword === expectedPassword) {
-            authenticationResult = SUCCESS;
+            authenticationResult = success;
         } else {
-            authenticationResult = ERROR;
+            authenticationResult = error;
         }
     } catch (error) {
-        authenticationResult = ERROR;
+        authenticationResult = error;
     }
 };
 
