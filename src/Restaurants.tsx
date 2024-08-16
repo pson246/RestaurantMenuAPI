@@ -1,38 +1,46 @@
 import {
     BulkUpdateButton,
-    Datagrid,    
+    Datagrid,
     Edit,
+    FunctionField,
     Labeled,
-    List,    
-    RaRecord,        
+    List,
+    RaRecord,
+    SaveButton,
     SimpleForm,
     TextField,
     TextInput,
+    Toolbar,
     TopToolbar,
     useRecordContext
 } from "react-admin";
 import { encode } from "html-entities";
+import { isEmpty } from "react-admin";
+import CheckCircleIcon from '@mui/icons-material/CheckCircle';
 
-const ENCODE_HTML_MODE = "nonAsciiPrintable";
-const ENCODE_HTML_LEVEL = "xml";
+const encodeHtmlMode = "nonAsciiPrintable";
+const encodeHtmlLevel = "xml";
+const htmlLineBreak = "<br/>";
 
 const RestaurantPanel = () => {
     const record = useRecordContext();
     var lunchMenu = undefined;
     var alacarteMenu = undefined;
     var menuHtml = "";
-    if (record.lunchMenu && record.lunchMenu?.trim() !== "") {
+    if (!isEmpty(record.lunchMenu)) {
         lunchMenu = record.lunchMenu;
     }
-    lunchMenu = encode(lunchMenu, { mode: ENCODE_HTML_MODE, level: ENCODE_HTML_LEVEL });
-    if (record.alacarteMenu && record.alacarteMenu?.trim() !== "") {
+    lunchMenu = encode(lunchMenu, { mode: encodeHtmlMode, level: encodeHtmlLevel });
+    if (!isEmpty(record.alacarteMenu)) {
         alacarteMenu = record.alacarteMenu;
     }
-    alacarteMenu = encode(alacarteMenu, { mode: ENCODE_HTML_MODE, level: ENCODE_HTML_LEVEL });
+    alacarteMenu = encode(alacarteMenu, { mode: encodeHtmlMode, level: encodeHtmlLevel });
     if (lunchMenu || alacarteMenu) {
-        menuHtml = "Lunch menu<br/><br/>" + lunchMenu + "<br/><br/>À la carte menu<br/><br/>" + alacarteMenu;
+        menuHtml = `${htmlLineBreak}(Lunch Menu) ${lunchMenu}` +            
+            `${htmlLineBreak}${htmlLineBreak}` +
+            `${alacarteMenu}${htmlLineBreak}${htmlLineBreak}`;
     } else {
-        menuHtml = "<br/>";
+        menuHtml = htmlLineBreak;
     }
     return (
         <div dangerouslySetInnerHTML={{__html: menuHtml}} />
@@ -52,26 +60,40 @@ const TopToolbarButtons = () => (
 
 export const RestaurantList = () => {
 
-    const isRowSelectable = (restaurantRecord: RaRecord) => {
-        const result = (restaurantRecord.lunchMenu || restaurantRecord.alacarteMenu) ? true : false;
-        return result;
+    const getMenuAvailabilityHtmlIcon = (record: RaRecord) => {        
+        if (!isEmpty(record?.lunchMenu) || !isEmpty(record?.alacarteMenu)) {
+            return <CheckCircleIcon />
+        } else {
+            return "";
+        }
+    };
+
+    const getRowSelectable = (record: RaRecord) => {
+        return (!isEmpty(record?.lunchMenu) || !isEmpty(record?.alacarteMenu));
     };
 
     return (
         <List actions={<TopToolbarButtons />}>
-            <Datagrid bulkActionButtons={<BulkActionButtons />} expand={<RestaurantPanel />} isRowSelectable={record => isRowSelectable(record)} rowClick={"edit"}>
+            <Datagrid bulkActionButtons={<BulkActionButtons />} expand={<RestaurantPanel />} rowClick={"edit"} isRowSelectable={record => getRowSelectable(record)}>
                 <TextField label="Restaurant Name" source="properties.name" sortable={false} />
+                <FunctionField label="Menu Availability" render={(record: RaRecord) => getMenuAvailabilityHtmlIcon(record)} />
                 <TextField label="Opening Hours" source="properties.opening_hours" sortable={false} />
-                <TextField label="Website" source="properties.contact:website" sortable={false} />
+                <TextField label="Website" source="properties.contact:website" sortable={false} />                
             </Datagrid>
         </List>
     );
 };
 
+const EditToolbar = () => (
+    <Toolbar>
+        <SaveButton />
+    </Toolbar>
+);
+
 export const RestaurantEdit = () => {
     return (
         <Edit title="Restaurant Edit">
-            <SimpleForm>
+            <SimpleForm toolbar={<EditToolbar />}>
                 <Labeled sx={{ marginBottom: "10px" }}>
                     <TextField label="Restaurant Name" source="properties.name" sx={{ marginTop: "5px" }} />
                 </Labeled>
@@ -83,10 +105,8 @@ export const RestaurantEdit = () => {
                 </Labeled>
                 <Labeled sx={{ marginBottom: "10px" }}>
                     <TextField label="Opening Hours" source="properties.opening_hours" sx={{ marginTop: "5px" }} />
-                </Labeled>
-                <Labeled sx={{ marginBottom: "10px" }}>
-                    <TextInput label="Website" source="properties.contact:website" sx={{ marginTop: "5px" }} />
-                </Labeled>
+                </Labeled>                
+                <TextInput label="Website" source="properties.contact:website" sx={{ marginTop: "5px" }} />                
             </SimpleForm>
         </Edit>
     );

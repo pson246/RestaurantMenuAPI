@@ -1,3 +1,6 @@
+0.0.9
+16.8.2024: Displaying simplified version of menu availability
+
 0.0.8
 15.8.2024: Updated à la carte menu selector for restaurant Pikku Ranska in Europe/Finland/Helsinki
 

@@ -35,7 +35,7 @@ export const dataProvider: DataProvider = {
       total: response?.json?.total
     };
   },
-  getChartData: async () => {
+  /* getChartData: async () => {
     const restaurantsResponse = await fetchUtils?.fetchJson(`${API_URL}/api/EuropeFinlandHelsinkiRestaurantListHttp`);
     const lunchMenuAvailabilitySeries = [];
     const alacarteMenuAvailabilitySeries = [];
@@ -85,7 +85,7 @@ export const dataProvider: DataProvider = {
         "data": alacarteMenuAvailabilitySeries
       },
     ];
-  },
+  }, */
   getOne: async (_resource, params) => {
     const restaurantId = String(params?.id);
     const response = await fetchUtils?.fetchJson(`${API_URL}/api/EuropeFinlandHelsinkiRestaurantGetOneHttp/${restaurantId}`);

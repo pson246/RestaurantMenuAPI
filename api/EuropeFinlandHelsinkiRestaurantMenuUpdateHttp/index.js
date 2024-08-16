@@ -7,13 +7,13 @@ const { containsPossibleEmail, containsPossiblePhoneNumber } = require("../menuC
 var pikkuRanskaLunchMenu = "";
 var pikkuRanskaAlacarteMenu = "";
 var updateStatus = "";
-const EUROPE_FINLAND_HELSINKI_PIKKU_RANSKA = {
-    NAME: "Pikku Ranska",
-    LUNCH_PAGE_URL: "http://www.pikkuranska.com/lounas.htm",
-    ALACARTE_PAGE_URL: "http://www.pikkuranska.com/alacarte.htm"
+const europeFinlandHelsinkiPikkuRanska = {
+    name: "Pikku Ranska",
+    lunchMenuPageUrl: "http://www.pikkuranska.com/lounas.htm",
+    alacarteMenuPageUrl: "http://www.pikkuranska.com/alacarte.htm"
 };
-const STATUS_SUCCESS = "success";
-const STATUS_ERROR = "error";
+const statusSuccess = "success";
+const statusError = "error";
 
 // One type of character + new line character
 const hasTwoTypesOfCharacter = (str) => {
@@ -56,12 +56,12 @@ const fetchPikkuRanskaMenu = async (menuSelector, pageUrl) => {
 
 const fetchPikkuRanskaLunchMenu = async () => {
     pikkuRanskaLunchMenu = await fetchPikkuRanskaMenu("p.MsoNormal b i span",
-        EUROPE_FINLAND_HELSINKI_PIKKU_RANSKA.LUNCH_PAGE_URL);   
+        europeFinlandHelsinkiPikkuRanska.lunchMenuPageUrl);   
 };
 
 const fetchPikkuRanskaAlacarteMenu = async () => {    
     pikkuRanskaAlacarteMenu = await fetchPikkuRanskaMenu("p.MsoNormal, p.MsoListParagraphCxSpFirst, p.MsoListParagraphCxSpMiddle, p.MsoListParagraphCxSpLast",
-        EUROPE_FINLAND_HELSINKI_PIKKU_RANSKA.ALACARTE_PAGE_URL);
+        europeFinlandHelsinkiPikkuRanska.alacarteMenuPageUrl);
 };
 
 const updatePikkuRanskaMenu = async () => {
@@ -70,14 +70,14 @@ const updatePikkuRanskaMenu = async () => {
         if (containsPossiblePhoneNumber(pikkuRanskaLunchMenu) || containsPossibleEmail(pikkuRanskaLunchMenu) ||
             containsPossiblePhoneNumber(pikkuRanskaAlacarteMenu) || containsPossibleEmail(pikkuRanskaAlacarteMenu)) {
             console.log("Menu for restaurant Europe.Finland.Helsinki.PikkuRanska contains personal info.");            
-            response = STATUS_ERROR;
+            response = statusError;
         } else {
             const container = await getContainer();
             const restaurantQuery = {
                 query: `SELECT * FROM ${container.id} f WHERE f.properties.name = @name`,
                 parameters: [{
                     name: "@name",
-                    value: EUROPE_FINLAND_HELSINKI_PIKKU_RANSKA.NAME,
+                    value: europeFinlandHelsinkiPikkuRanska.name,
                 }],
             };
             const { resources } = await container?.items?.query(restaurantQuery)?.fetchAll();
@@ -90,14 +90,14 @@ const updatePikkuRanskaMenu = async () => {
             ];
             const { resource: updated } = await container?.item(id, partitionKey)?.patch(operations);
             if (!isEmpty(updated?.id)) {
-                response = STATUS_SUCCESS;
+                response = statusSuccess;
             } else {
-                response = STATUS_ERROR;
+                response = statusError;
             }
         }
     } catch (error) {
         console.log("Error updating menu for restaurant Europe.Finland.Helsinki.PikkuRanska: ", error);
-        response = STATUS_ERROR;
+        response = statusError;
     }
     return response;
 };
