@@ -32,12 +32,6 @@ jobs:
           api_location: "api" # Api source code path - optional
           output_location: "dist" # Built app content directory - optional
           ###### End of Repository/Build Configurations ######
-        env:
-          VITE_MSAL_CLIENT_ID: ${{ secrets.VITE_MSAL_CLIENT_ID }}
-          VITE_MSAL_AUTHORITY: ${{ secrets.VITE_MSAL_AUTHORITY }}
-          VITE_APP_BASE_URI: ${{ secrets.VITE_APP_BASE_URI }}
-          # VITE_REACT_APP_DB_HOST: secrets.VITE_REACT_APP_DB_HOST
-          # VITE_REACT_APP_DB_AUTH_KEY: secrets.VITE_REACT_APP_DB_AUTH_KEY
 
   close_pull_request_job:
     if: github.event_name == 'pull_request' && github.event.action == 'closed'
