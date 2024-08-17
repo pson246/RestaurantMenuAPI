@@ -19,13 +19,13 @@ npm install
 
 These local configuration files need to be added to the project before starting the application in development mode. Values of these properties are provided per demand, please let me know when you need them.
 
-### .env.development.local, at the root of the React application directory with following content:
+.env.development.local, at the root of the React application directory with following content:
 
 ```sh
 VITE_REACT_APP_API_URL=""
 ```
 
-### local.settings.json, at the root of the API application directory (api) with following content:
+local.settings.json, at the root of the API application directory (api) with following content:
 
 ```json
 {
