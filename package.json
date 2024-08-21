@@ -12,7 +12,7 @@
   },
   "dependencies": {
     "@azure/cosmos": "^4.0.0",
-    "@azure/identity": "^4.2.0",
+    "@azure/identity": ">=4.2.1",
     "@mui/material": "^5.15.18",
     "html-entities": "^2.5.2",
     "ra-auth-msal": "^1.2.0",
