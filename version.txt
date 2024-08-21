@@ -1,3 +1,6 @@
+0.1.2
+21.8.2024: Added secondary login
+
 0.1.1
 17.8.2024: Removed few comments and chart, updated README
 
