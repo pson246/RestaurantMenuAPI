@@ -8,6 +8,8 @@ const authenticate = async (request) => {
     try {
         const expectedUsername = process.env.VITE_REACT_APP_AUTHENTICATION_USERNAME || "";
         const expectedPassword = process.env.VITE_REACT_APP_AUTHENTICATION_PASSWORD || "";
+        const expectedSecondaryUsername = process.env.VITE_REACT_APP_SECONDARY_AUTHENTICATION_USERNAME || "";
+        const expectedSecondaryPassword = process.env.VITE_REACT_APP_SECONDARY_AUTHENTICATION_PASSWORD || "";
         const requestBody = request.body;
         var actualUsername = requestBody.username;
         actualUsername = sanitizeHtml(actualUsername);
@@ -17,7 +19,8 @@ const authenticate = async (request) => {
         actualPassword = sanitizeHtml(actualPassword);
         actualPassword = mysql.escape(actualPassword);
         actualPassword = actualPassword.replaceAll('\'', '');
-        if (actualUsername === expectedUsername && actualPassword === expectedPassword) {
+        if ((actualUsername === expectedUsername && actualPassword === expectedPassword) ||
+            (actualUsername === expectedSecondaryUsername && actualPassword === expectedSecondaryPassword)) {
             authenticationResult = success;
         } else {
             authenticationResult = error;
